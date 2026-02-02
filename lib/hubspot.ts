@@ -63,7 +63,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
               filters: [
                 {
                   propertyName: 'email',
-                  operator: 'EQ',
+                  operator: 'EQ' as any,
                   value: data.email,
                 },
               ],
