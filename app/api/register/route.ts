@@ -4,6 +4,15 @@ import { RegistrationFormData } from '@/lib/types'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if DATABASE_URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL environment variable is not configured')
+      return NextResponse.json(
+        { error: 'Database not configured' },
+        { status: 500 }
+      )
+    }
+
     const formData: RegistrationFormData = await request.json()
 
     // Insert into database using Neon
