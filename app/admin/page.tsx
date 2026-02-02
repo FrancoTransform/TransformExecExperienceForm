@@ -537,22 +537,24 @@ export default function AdminPage() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Selected Activities</h3>
                   <div className="space-y-2">
                     {editForm.activities && Object.entries(editForm.activities).length > 0 ? (
-                      Object.entries(editForm.activities).map(([key, value]) => (
-                        value && (
-                          <div key={key} className="flex items-center">
-                            <input
-                              type="checkbox"
-                              checked={true}
-                              onChange={(e) => setEditForm({
-                                ...editForm,
-                                activities: { ...editForm.activities, [key]: e.target.checked }
-                              })}
-                              className="mr-2"
-                            />
-                            <span className="text-sm text-gray-700">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                          </div>
-                        )
-                      ))
+                      <>
+                        {Object.entries(editForm.activities).map(([key, value]) =>
+                          value ? (
+                            <div key={key} className="flex items-center">
+                              <input
+                                type="checkbox"
+                                checked={true}
+                                onChange={(e) => setEditForm({
+                                  ...editForm,
+                                  activities: { ...editForm.activities, [key]: e.target.checked }
+                                })}
+                                className="mr-2"
+                              />
+                              <span className="text-sm text-gray-700">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                            </div>
+                          ) : null
+                        )}
+                      </>
                     ) : (
                       <p className="text-sm text-gray-500 italic">No activities selected</p>
                     )}
