@@ -59,10 +59,10 @@ export async function POST(request: NextRequest) {
       id: result[0].id,
       message: 'Registration successful'
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error processing registration:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error?.message || 'Internal server error' },
       { status: 500 }
     )
   }

@@ -126,11 +126,13 @@ export default function RegistrationPage() {
         body: JSON.stringify(formData),
       })
 
+      const result = await response.json()
+
       if (response.ok) {
-        const result = await response.json()
         window.location.href = `/confirmation?id=${result.id}`
       } else {
-        alert('Registration failed. Please try again.')
+        console.error('Registration failed:', result)
+        alert(`Registration failed: ${result.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error submitting form:', error)
