@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { RegistrationFormData } from '@/lib/types'
+import { syncToHubSpot } from '@/lib/hubspot'
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,6 +50,14 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to save registration' },
         { status: 500 }
       )
+    }
+
+    // Sync to HubSpot (don't block registration if this fails)
+    try {
+      await syncToHubSpot(formData)
+    } catch (hubspotError) {
+      console.error('HubSpot sync failed (non-blocking):', hubspotError)
+      // Continue - we don't want to fail the registration if HubSpot fails
     }
 
     // TODO: Send confirmation email
