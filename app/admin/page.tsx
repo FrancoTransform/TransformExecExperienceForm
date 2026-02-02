@@ -68,6 +68,17 @@ export default function AdminPage() {
     }
   }
 
+  // Helper function to format date for input field (YYYY-MM-DD)
+  const formatDateForInput = (dateValue: string | null): string => {
+    if (!dateValue) return ''
+    try {
+      const date = new Date(dateValue)
+      return date.toISOString().split('T')[0]
+    } catch (e) {
+      return ''
+    }
+  }
+
   const startEdit = (registration: Registration) => {
     setEditingId(registration.id)
 
@@ -102,8 +113,8 @@ export default function AdminPage() {
       isExecMember: registration.is_exec_member,
       activities: activities || {},
       stayingAtWynn: registration.staying_at_wynn,
-      checkInDate: registration.check_in_date || '',
-      checkOutDate: registration.check_out_date || '',
+      checkInDate: formatDateForInput(registration.check_in_date),
+      checkOutDate: formatDateForInput(registration.check_out_date),
       dietaryRestrictions: Array.isArray(dietaryRestrictions) ? dietaryRestrictions : [],
       dietaryOther: registration.dietary_other || '',
     })
