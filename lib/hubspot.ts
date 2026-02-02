@@ -1,41 +1,13 @@
 import { Client } from '@hubspot/api-client'
+import { RegistrationFormData } from './types'
 
 // Initialize HubSpot client
 const hubspotClient = new Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN })
 
-interface RegistrationData {
-  firstName: string
-  lastName: string
-  email: string
-  company: string
-  title: string
-  isCHRO: boolean
-  companySize: string | null
-  isExecMember: boolean
-  activities: {
-    aiAtWorkMon?: boolean
-    execChambersMon?: boolean
-    sponsoredDinnerMon?: boolean
-    execMemberLunchTue?: boolean
-    chroExperienceLunchTue?: boolean
-    chroTrackSessionTue?: boolean
-    execChambersTue?: boolean
-    vipDinnerTue?: boolean
-    chroExperienceBreakfastWed?: boolean
-    executiveBreakfastWed?: boolean
-    execChambersWed?: boolean
-  }
-  stayingAtWynn: boolean
-  checkInDate: string | null
-  checkOutDate: string | null
-  dietaryRestrictions: string[]
-  dietaryOther: string | null
-}
-
 /**
  * Sync registration data to HubSpot as a contact
  */
-export async function syncToHubSpot(data: RegistrationData): Promise<void> {
+export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
   try {
     if (!process.env.HUBSPOT_ACCESS_TOKEN) {
       console.warn('HUBSPOT_ACCESS_TOKEN not configured, skipping HubSpot sync')
@@ -61,10 +33,10 @@ export async function syncToHubSpot(data: RegistrationData): Promise<void> {
       company: data.company,
       jobtitle: data.title,
       // Custom properties (these need to be created in HubSpot first)
-      execexp_is_chro: data.isCHRO ? 'Yes' : 'No',
-      execexp_company_size: data.companySize || 'Not specified',
-      execexp_is_exec_member: data.isExecMember ? 'Yes' : 'No',
-      execexp_staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
+      execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
+      execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
+      execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
+      execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
       execexp_check_in_date: data.checkInDate || '',
       execexp_check_out_date: data.checkOutDate || '',
       execexp_dietary_restrictions: dietaryInfo,
@@ -110,10 +82,10 @@ export async function syncToHubSpot(data: RegistrationData): Promise<void> {
             lastname: data.lastName,
             company: data.company,
             jobtitle: data.title,
-            execexp_is_chro: data.isCHRO ? 'Yes' : 'No',
-            execexp_company_size: data.companySize || 'Not specified',
-            execexp_is_exec_member: data.isExecMember ? 'Yes' : 'No',
-            execexp_staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
+            execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
+            execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
+            execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
+            execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
             execexp_check_in_date: data.checkInDate || '',
             execexp_check_out_date: data.checkOutDate || '',
             execexp_dietary_restrictions:
