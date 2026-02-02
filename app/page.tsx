@@ -210,7 +210,7 @@ export default function RegistrationPage() {
                       checked={formData.isCHRO === false}
                       onChange={() => {
                         updateField('isCHRO', false)
-                        updateField('companySize', 'under_5000')
+                        updateField('companySize', null)
                         handleQualificationComplete()
                       }}
                       className="mr-3 h-4 w-4 text-blue-600"
