@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import { activities } from '@/lib/activities'
 
 interface RegistrationData {
   firstName: string
@@ -17,7 +16,7 @@ interface RegistrationData {
   dietaryOther?: string
 }
 
-export default function ConfirmationPage() {
+function ConfirmationContent() {
   const searchParams = useSearchParams()
   const registrationId = searchParams.get('id')
   const [registration, setRegistration] = useState<RegistrationData | null>(null)
@@ -135,3 +134,14 @@ export default function ConfirmationPage() {
   )
 }
 
+export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    }>
+      <ConfirmationContent />
+    </Suspense>
+  )
+}
