@@ -3,11 +3,12 @@ import { sql } from '@/lib/db'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const result = await sql`
-      SELECT * FROM registrations WHERE id = ${params.id}
+      SELECT * FROM registrations WHERE id = ${id}
     `
 
     if (!result || result.length === 0) {

@@ -4,21 +4,22 @@ import { sql } from '@/lib/db'
 // GET single registration
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const result = await sql`
-      SELECT * FROM registrations 
-      WHERE id = ${params.id}
+      SELECT * FROM registrations
+      WHERE id = ${id}
     `
-    
+
     if (result.length === 0) {
       return NextResponse.json(
         { error: 'Registration not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json({ registration: result[0] })
   } catch (error) {
     console.error('Error fetching registration:', error)
@@ -32,14 +33,15 @@ export async function GET(
 // PUT update registration
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const data = await request.json()
-    
+
     const result = await sql`
-      UPDATE registrations 
-      SET 
+      UPDATE registrations
+      SET
         first_name = ${data.firstName},
         last_name = ${data.lastName},
         email = ${data.email},
@@ -54,18 +56,18 @@ export async function PUT(
         check_out_date = ${data.checkOutDate || null},
         dietary_restrictions = ${JSON.stringify(data.dietaryRestrictions)},
         dietary_other = ${data.dietaryOther || null}
-      WHERE id = ${params.id}
+      WHERE id = ${id}
       RETURNING *
     `
-    
+
     if (result.length === 0) {
       return NextResponse.json(
         { error: 'Registration not found' },
         { status: 404 }
       )
     }
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Registration updated successfully',
       registration: result[0]
     })
@@ -81,23 +83,24 @@ export async function PUT(
 // DELETE registration
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const result = await sql`
-      DELETE FROM registrations 
-      WHERE id = ${params.id}
+      DELETE FROM registrations
+      WHERE id = ${id}
       RETURNING id
     `
-    
+
     if (result.length === 0) {
       return NextResponse.json(
         { error: 'Registration not found' },
         { status: 404 }
       )
     }
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Registration deleted successfully',
       id: result[0].id
     })
