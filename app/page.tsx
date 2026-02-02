@@ -87,7 +87,7 @@ export default function RegistrationPage() {
         return true // Optional to select activities
       case 'logistics':
         return formData.stayingAtWynn !== null &&
-               (formData.stayingAtWynn === false || (formData.checkInDate && formData.checkOutDate))
+               (formData.stayingAtWynn === false || !!(formData.checkInDate && formData.checkOutDate))
       case 'review':
         return true
       default:
