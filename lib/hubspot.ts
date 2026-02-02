@@ -61,16 +61,16 @@ export async function syncToHubSpot(data: RegistrationData): Promise<void> {
       company: data.company,
       jobtitle: data.title,
       // Custom properties (these need to be created in HubSpot first)
-      is_chro: data.isCHRO ? 'Yes' : 'No',
-      company_size: data.companySize || 'Not specified',
-      is_exec_member: data.isExecMember ? 'Yes' : 'No',
-      staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
-      check_in_date: data.checkInDate || '',
-      check_out_date: data.checkOutDate || '',
-      dietary_restrictions: dietaryInfo,
-      selected_activities: selectedActivities,
-      transform_2026_registered: 'Yes',
-      registration_date: new Date().toISOString().split('T')[0],
+      execexp_is_chro: data.isCHRO ? 'Yes' : 'No',
+      execexp_company_size: data.companySize || 'Not specified',
+      execexp_is_exec_member: data.isExecMember ? 'Yes' : 'No',
+      execexp_staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
+      execexp_check_in_date: data.checkInDate || '',
+      execexp_check_out_date: data.checkOutDate || '',
+      execexp_dietary_restrictions: dietaryInfo,
+      execexp_selected_activities: selectedActivities,
+      execexp_transform_2026_registered: 'Yes',
+      execexp_registration_date: new Date().toISOString().split('T')[0],
     }
 
     // Create or update contact in HubSpot
@@ -110,23 +110,23 @@ export async function syncToHubSpot(data: RegistrationData): Promise<void> {
             lastname: data.lastName,
             company: data.company,
             jobtitle: data.title,
-            is_chro: data.isCHRO ? 'Yes' : 'No',
-            company_size: data.companySize || 'Not specified',
-            is_exec_member: data.isExecMember ? 'Yes' : 'No',
-            staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
-            check_in_date: data.checkInDate || '',
-            check_out_date: data.checkOutDate || '',
-            dietary_restrictions:
+            execexp_is_chro: data.isCHRO ? 'Yes' : 'No',
+            execexp_company_size: data.companySize || 'Not specified',
+            execexp_is_exec_member: data.isExecMember ? 'Yes' : 'No',
+            execexp_staying_at_wynn: data.stayingAtWynn ? 'Yes' : 'No',
+            execexp_check_in_date: data.checkInDate || '',
+            execexp_check_out_date: data.checkOutDate || '',
+            execexp_dietary_restrictions:
               data.dietaryRestrictions.length > 0
                 ? data.dietaryRestrictions.join(', ') +
                   (data.dietaryOther ? ` (Other: ${data.dietaryOther})` : '')
                 : 'None',
-            selected_activities: Object.entries(data.activities)
+            execexp_selected_activities: Object.entries(data.activities)
               .filter(([_, selected]) => selected)
               .map(([key]) => formatActivityName(key))
               .join('; '),
-            transform_2026_registered: 'Yes',
-            registration_date: new Date().toISOString().split('T')[0],
+            execexp_transform_2026_registered: 'Yes',
+            execexp_registration_date: new Date().toISOString().split('T')[0],
           }
 
           await hubspotClient.crm.contacts.basicApi.update(contactId, { properties })
