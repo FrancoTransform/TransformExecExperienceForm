@@ -26,7 +26,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       : 'None'
 
     // Prepare contact properties
-    const properties = {
+    const properties: any = {
       email: data.email,
       firstname: data.firstName,
       lastname: data.lastName,
@@ -37,12 +37,18 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
       execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
       execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
-      execexp_check_in_date: data.checkInDate || '',
-      execexp_check_out_date: data.checkOutDate || '',
       execexp_dietary_restrictions: dietaryInfo,
       execexp_selected_activities: selectedActivities,
       execexp_transform_2026_registered: 'Yes',
       execexp_registration_date: new Date().toISOString().split('T')[0],
+    }
+
+    // Only add date fields if they have values (to avoid HubSpot errors if properties don't exist)
+    if (data.checkInDate) {
+      properties.execexp_check_in_date = data.checkInDate
+    }
+    if (data.checkOutDate) {
+      properties.execexp_check_out_date = data.checkOutDate
     }
 
     // Create or update contact in HubSpot
@@ -77,7 +83,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
           const contactId = searchResponse.results[0].id
 
           // Update existing contact
-          const properties = {
+          const properties: any = {
             firstname: data.firstName,
             lastname: data.lastName,
             company: data.company,
@@ -86,8 +92,6 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
             execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
             execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
-            execexp_check_in_date: data.checkInDate || '',
-            execexp_check_out_date: data.checkOutDate || '',
             execexp_dietary_restrictions:
               data.dietaryRestrictions.length > 0
                 ? data.dietaryRestrictions.join(', ') +
@@ -99,6 +103,14 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
               .join('; '),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
+          }
+
+          // Only add date fields if they have values
+          if (data.checkInDate) {
+            properties.execexp_check_in_date = data.checkInDate
+          }
+          if (data.checkOutDate) {
+            properties.execexp_check_out_date = data.checkOutDate
           }
 
           await hubspotClient.crm.contacts.basicApi.update(contactId, { properties })
