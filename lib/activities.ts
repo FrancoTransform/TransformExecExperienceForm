@@ -1,6 +1,7 @@
 import { Activity, RegistrationFormData } from './types'
 
-// Transform 2026 dates: Feb 24-26, 2026 (Monday-Wednesday)
+// Transform 2026 dates: March 22-26, 2026 (Sunday-Thursday)
+// Executive Experience activities are on Mon-Wed (March 23-25)
 export const activities: Activity[] = [
   {
     id: 'aiAtWorkMon',
@@ -94,11 +95,11 @@ export const activities: Activity[] = [
   },
 ]
 
-// Map day names to actual dates for Transform 2026
+// Map day names to actual dates for Transform 2026 (March 22-26)
 export const dayToDate: Record<string, string> = {
-  'Monday': 'Mon, Feb 24',
-  'Tuesday': 'Tue, Feb 25',
-  'Wednesday': 'Wed, Feb 26',
+  'Monday': 'Mon, Mar 23',
+  'Tuesday': 'Tue, Mar 24',
+  'Wednesday': 'Wed, Mar 25',
 }
 
 // Get full date string for an activity

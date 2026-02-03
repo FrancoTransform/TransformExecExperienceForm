@@ -52,13 +52,13 @@ export function parseActivityString(activityString: string): {
   date: string
   time: string
 } | null {
-  // Format: "Activity Name - Mon, Feb 24 • 12:00 PM – 1:00 PM"
+  // Format: "Activity Name - Mon, Mar 23 • 12:00 PM – 1:00 PM"
   const match = activityString.match(/^(.+?) - (.+?) • (.+)$/)
   if (!match) return null
 
   return {
     name: match[1].trim(),
-    date: match[2].trim(), // "Mon, Feb 24"
+    date: match[2].trim(), // "Mon, Mar 23"
     time: match[3].trim(), // "12:00 PM – 1:00 PM"
   }
 }
@@ -68,13 +68,13 @@ export function activityToCalendarEvent(activityString: string): CalendarEvent |
   const parsed = parseActivityString(activityString)
   if (!parsed) return null
 
-  // Parse date (e.g., "Mon, Feb 24" -> Feb 24, 2026)
+  // Parse date (e.g., "Mon, Mar 23" -> Mar 23, 2026)
   const dateMatch = parsed.date.match(/\w+, \w+ (\d+)/)
   if (!dateMatch) return null
-  
+
   const day = parseInt(dateMatch[1])
   const year = 2026
-  const month = 1 // February (0-indexed)
+  const month = 2 // March (0-indexed)
 
   // Parse time (e.g., "12:00 PM – 1:00 PM")
   const timeMatch = parsed.time.match(/(\d+):(\d+) (AM|PM) – (\d+):(\d+) (AM|PM)/)
