@@ -1,18 +1,21 @@
 import { Client } from '@hubspot/api-client'
 import { RegistrationFormData } from './types'
 
-// Initialize HubSpot client
-const hubspotClient = new Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN })
-
 /**
  * Sync registration data to HubSpot as a contact
  */
 export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
+  if (!process.env.HUBSPOT_ACCESS_TOKEN) {
+    console.warn('HUBSPOT_ACCESS_TOKEN not configured, skipping HubSpot sync')
+    return
+  }
+
+  // Initialize HubSpot client inside function to ensure env var is available
+  const hubspotClient = new Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN })
+
+  console.log('Starting HubSpot sync for:', data.email)
+
   try {
-    if (!process.env.HUBSPOT_ACCESS_TOKEN) {
-      console.warn('HUBSPOT_ACCESS_TOKEN not configured, skipping HubSpot sync')
-      return
-    }
 
     // Format selected activities as HTML list with line breaks
     const selectedActivities = Object.entries(data.activities)
