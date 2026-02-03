@@ -1,4 +1,5 @@
 // Generate .ics calendar file content for an activity
+// Supports Google Calendar, Outlook, and iCal/Apple Calendar
 export interface CalendarEvent {
   title: string
   description: string
