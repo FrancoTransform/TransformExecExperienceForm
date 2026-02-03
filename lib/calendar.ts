@@ -46,6 +46,59 @@ export function downloadICS(event: CalendarEvent, filename: string): void {
   URL.revokeObjectURL(link.href)
 }
 
+// Generate Google Calendar URL
+export function generateGoogleCalendarUrl(event: CalendarEvent): string {
+  const formatGoogleDate = (date: Date): string => {
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+  }
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.title,
+    dates: `${formatGoogleDate(event.startDate)}/${formatGoogleDate(event.endDate)}`,
+    details: event.description,
+    location: event.location,
+  })
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
+}
+
+// Generate Outlook.com Calendar URL
+export function generateOutlookUrl(event: CalendarEvent): string {
+  const formatOutlookDate = (date: Date): string => {
+    return date.toISOString()
+  }
+
+  const params = new URLSearchParams({
+    path: '/calendar/action/compose',
+    rru: 'addevent',
+    subject: event.title,
+    startdt: formatOutlookDate(event.startDate),
+    enddt: formatOutlookDate(event.endDate),
+    body: event.description,
+    location: event.location,
+  })
+
+  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`
+}
+
+export type CalendarType = 'google' | 'outlook' | 'ical'
+
+export function addToCalendar(event: CalendarEvent, calendarType: CalendarType, filename: string): void {
+  switch (calendarType) {
+    case 'google':
+      window.open(generateGoogleCalendarUrl(event), '_blank')
+      break
+    case 'outlook':
+      window.open(generateOutlookUrl(event), '_blank')
+      break
+    case 'ical':
+    default:
+      downloadICS(event, filename)
+      break
+  }
+}
+
 // Parse activity string to extract date and time information
 export function parseActivityString(activityString: string): {
   name: string

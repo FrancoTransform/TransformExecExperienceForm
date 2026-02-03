@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { activityToCalendarEvent, downloadICS } from '@/lib/calendar'
+import { activityToCalendarEvent, addToCalendar, CalendarType } from '@/lib/calendar'
 import Hero from '@/components/Hero'
 
 interface RegistrationData {
@@ -22,13 +22,15 @@ function ConfirmationContent() {
   const registrationId = searchParams.get('id')
   const [registration, setRegistration] = useState<RegistrationData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
-  const handleAddToCalendar = (activityString: string) => {
+  const handleAddToCalendar = (activityString: string, calendarType: CalendarType) => {
     const event = activityToCalendarEvent(activityString)
     if (event) {
       const filename = `transform-2026-${event.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.ics`
-      downloadICS(event, filename)
+      addToCalendar(event, calendarType, filename)
     }
+    setOpenDropdown(null)
   }
 
   useEffect(() => {
@@ -100,15 +102,57 @@ function ConfirmationContent() {
                       </div>
                       <span className="text-gray-700 font-medium">{activityName}</span>
                     </div>
-                    <button
-                      onClick={() => handleAddToCalendar(activityName)}
-                      className="ml-4 flex-shrink-0 inline-flex items-center px-4 py-2 border-2 border-purple-300 text-sm font-medium rounded-lg text-purple-700 bg-white hover:bg-purple-50 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      Add to Calendar
-                    </button>
+                    <div className="relative ml-4 flex-shrink-0">
+                      <button
+                        onClick={() => setOpenDropdown(openDropdown === activityName ? null : activityName)}
+                        className="inline-flex items-center px-4 py-2 border-2 border-purple-300 text-sm font-medium rounded-lg text-purple-700 bg-white hover:bg-purple-50 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Add to Calendar
+                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {openDropdown === activityName && (
+                        <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                          <div className="py-1">
+                            <button
+                              onClick={() => handleAddToCalendar(activityName, 'google')}
+                              className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 transition-colors"
+                            >
+                              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z" fill="#4285F4"/>
+                                <path d="M19.5 12c0-.23-.02-.45-.05-.68l-7.45 7.45c.23.03.45.05.68.05 4.14 0 7.5-3.36 7.5-7.5 0-.23-.02-.45-.05-.68l.05.68-.68-.05z" fill="#34A853"/>
+                                <path d="M12 4.5c1.93 0 3.68.78 4.95 2.05l-1.41 1.41C14.46 6.88 13.28 6.5 12 6.5c-2.9 0-5.32 2.08-5.85 4.83l-1.93-1.5C5.28 6.78 8.36 4.5 12 4.5z" fill="#EA4335"/>
+                                <path d="M6.15 11.33C6.05 11.54 6 11.77 6 12s.05.46.15.67l1.93-1.5c-.05-.11-.08-.22-.08-.34s.03-.23.08-.34l-1.93-1.5z" fill="#FBBC05"/>
+                              </svg>
+                              Google Calendar
+                            </button>
+                            <button
+                              onClick={() => handleAddToCalendar(activityName, 'outlook')}
+                              className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 transition-colors"
+                            >
+                              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="#0078D4">
+                                <path d="M24 7.387v10.478c0 .23-.08.424-.238.576-.158.152-.354.228-.588.228h-8.174v-6.182l1.602 1.176a.372.372 0 00.47-.012l6.928-5.473V7.387zM24 5.39v.573l-7.254 5.737-1.746-1.28V5.39h8.412c.234 0 .43.076.588.228zM14 5.39v5.03l-1.746 1.28L5 5.963V5.39h9zM5 7.387v.791l6.928 5.473a.372.372 0 00.47.012l1.602-1.176v6.182H5.826c-.234 0-.43-.076-.588-.228A.772.772 0 015 17.865V7.387zM0 8.5v9c0 .828.672 1.5 1.5 1.5h2V7H1.5C.672 7 0 7.672 0 8.5z"/>
+                              </svg>
+                              Outlook
+                            </button>
+                            <button
+                              onClick={() => handleAddToCalendar(activityName, 'ical')}
+                              className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 transition-colors"
+                            >
+                              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" fill="#333"/>
+                              </svg>
+                              Apple Calendar / iCal
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>
