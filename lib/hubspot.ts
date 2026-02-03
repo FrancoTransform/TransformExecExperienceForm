@@ -14,11 +14,11 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       return
     }
 
-    // Format selected activities as a readable list
+    // Format selected activities as a readable list with bullet points and line breaks
     const selectedActivities = Object.entries(data.activities)
       .filter(([_, selected]) => selected)
-      .map(([key]) => formatActivityName(key))
-      .join('; ')
+      .map(([key]) => `• ${formatActivityName(key)}`)
+      .join('<br>')
 
     // Format dietary restrictions
     const dietaryInfo = data.dietaryRestrictions.length > 0
@@ -133,8 +133,8 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
                 : 'None',
             execexp_selected_activities: Object.entries(data.activities)
               .filter(([_, selected]) => selected)
-              .map(([key]) => formatActivityName(key))
-              .join('; '),
+              .map(([key]) => `• ${formatActivityName(key)}`)
+              .join('<br>'),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
           }
