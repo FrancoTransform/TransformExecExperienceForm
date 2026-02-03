@@ -526,8 +526,8 @@ export default function RegistrationPage() {
                     {[
                       'Give and take discussion on shared challenges',
                       'Build deep connections with peers',
-                      'Learn from others who've solved problems I'm facing',
-                      'Share what's working at my organization',
+                      'Learn from others who\'ve solved problems I\'m facing',
+                      'Share what\'s working at my organization',
                       'Explore specific topics in depth'
                     ].map((goal) => (
                       <label key={goal} className="flex items-start">
