@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { RegistrationFormData } from '@/lib/types'
 import { getEligibleActivities, hasExecLoungeAccess } from '@/lib/activities'
-import Image from 'next/image'
+import Hero from '@/components/Hero'
 
 const initialFormData: RegistrationFormData = {
   firstName: '',
@@ -170,49 +170,56 @@ export default function RegistrationPage() {
   const progress = ((currentStepIndex + 1) / steps.length) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        {/* Logo */}
-        <div className="mb-8 flex justify-center">
-          <Image src="/logo.png" alt="Transform" width={200} height={60} className="h-16 w-auto" />
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+      {/* Hero Banner */}
+      <Hero />
 
+      <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between mb-2">
+        <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-purple-100">
+          <div className="flex justify-between mb-3">
             {steps.map((step, index) => (
               <div key={step} className="flex-1 text-center">
-                <div className={`text-xs font-medium ${index <= currentStepIndex ? 'text-blue-600' : 'text-gray-400'}`}>
+                <div className={`text-xs font-semibold transition-colors ${
+                  index <= currentStepIndex
+                    ? 'text-purple-700'
+                    : 'text-gray-400'
+                }`}>
                   {stepTitles[step]}
                 </div>
               </div>
             ))}
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
             <div
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-purple-600 to-pink-500 h-2.5 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="card-transform p-8">
           {currentStep === 'welcome' && (
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                You're Invited: Executive Experiences at Transform 2026
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent mb-4">
+                You&apos;re Invited: Executive Experiences at Transform 2026
               </h1>
-              <div className="text-gray-700 space-y-4 mb-8">
-                <p>
-                  You've been selected to join our curated executive programming at Transform 2026.
+              <div className="text-gray-600 space-y-4 mb-8 max-w-2xl mx-auto text-left">
+                <p className="leading-relaxed">
+                  You&apos;ve been selected to join our curated executive programming at Transform 2026.
                   These sessions, meals, and experiences are designed exclusively for senior HR leaders —
                   no vendors, no pitches, just meaningful conversations with peers navigating the same
                   challenges you are.
                 </p>
-                <p>
-                  Tell us a bit about yourself below, and we'll show you the experiences available to you.
-                  Space is limited, so register for what you'd like to attend and we'll confirm your spots.
+                <p className="leading-relaxed">
+                  Tell us a bit about yourself below, and we&apos;ll show you the experiences available to you.
+                  Space is limited, so register for what you&apos;d like to attend and we&apos;ll confirm your spots.
                 </p>
               </div>
             </div>
@@ -220,67 +227,67 @@ export default function RegistrationPage() {
 
           {currentStep === 'contact' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <h2 className="text-2xl font-bold text-purple-900 mb-6">Contact Information</h2>
+              <div className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      First Name <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      First Name <span className="text-pink-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => updateField('firstName', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="input-transform"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Last Name <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Last Name <span className="text-pink-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => updateField('lastName', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="input-transform"
                       required
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email <span className="text-pink-500">*</span>
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => updateField('email', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-transform"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Company <span className="text-pink-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.company}
                     onChange={(e) => updateField('company', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-transform"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Title <span className="text-pink-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => updateField('title', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-transform"
                     required
                   />
                 </div>
@@ -806,38 +813,38 @@ export default function RegistrationPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="mt-8 flex justify-between">
+          <div className="mt-8 flex justify-between items-center">
             <button
               onClick={goToPreviousStep}
               disabled={currentStepIndex === 0}
-              className={`px-6 py-2 rounded-md font-medium ${
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
                 currentStepIndex === 0
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  : 'btn-transform-outline'
               }`}
             >
-              Previous
+              ← Previous
             </button>
 
             {currentStep === 'review' ? (
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+                className="btn-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {isSubmitting ? 'Submitting...' : 'Register for Executive Experiences'}
+                {isSubmitting ? 'Submitting...' : '✓ Register for Executive Experiences'}
               </button>
             ) : (
               <button
                 onClick={goToNextStep}
                 disabled={!canProceedFromStep(currentStep)}
-                className={`px-6 py-2 rounded-md font-medium ${
+                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
                   canProceedFromStep(currentStep)
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    ? 'btn-transform'
                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
-                Next
+                Next →
               </button>
             )}
           </div>

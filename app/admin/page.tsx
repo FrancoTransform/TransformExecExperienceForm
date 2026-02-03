@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import Hero from '@/components/Hero'
 
 interface Registration {
   id: number
@@ -219,45 +219,45 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading registrations...</div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
+        <div className="text-xl text-purple-600">Loading registrations...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+      {/* Hero Banner */}
+      <Hero />
+
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex justify-center mb-6">
-            <Image src="/logo.png" alt="Transform" width={200} height={60} className="h-16 w-auto" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent mb-2">Admin Dashboard</h1>
           <p className="text-gray-600">Manage Executive Experience Registrations</p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card-transform p-6 border-l-4 border-purple-500">
             <div className="text-sm text-gray-600 mb-1">Total Registrations</div>
-            <div className="text-3xl font-bold text-gray-900">{registrations.length}</div>
+            <div className="text-3xl font-bold text-purple-900">{registrations.length}</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card-transform p-6 border-l-4 border-pink-500">
             <div className="text-sm text-gray-600 mb-1">CHROs</div>
-            <div className="text-3xl font-bold text-blue-600">
+            <div className="text-3xl font-bold text-pink-600">
               {registrations.filter(r => r.is_chro).length}
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card-transform p-6 border-l-4 border-indigo-500">
             <div className="text-sm text-gray-600 mb-1">Exec Members</div>
-            <div className="text-3xl font-bold text-purple-600">
+            <div className="text-3xl font-bold text-indigo-600">
               {registrations.filter(r => r.is_exec_member).length}
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card-transform p-6 border-l-4 border-emerald-500">
             <div className="text-sm text-gray-600 mb-1">Staying at Wynn</div>
-            <div className="text-3xl font-bold text-green-600">
+            <div className="text-3xl font-bold text-emerald-600">
               {registrations.filter(r => r.staying_at_wynn).length}
             </div>
           </div>
@@ -270,31 +270,31 @@ export default function AdminPage() {
             placeholder="Search by name, email, or company..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="input-transform shadow-sm"
           />
         </div>
 
         {/* Registrations Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="card-transform overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-purple-100">
+              <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
                     Company
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-purple-800 uppercase tracking-wider">
                     Title
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-right text-xs font-bold text-purple-800 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-gray-100">
                 {filteredRegistrations.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
@@ -303,28 +303,28 @@ export default function AdminPage() {
                   </tr>
                 ) : (
                   filteredRegistrations.map((registration) => (
-                    <tr key={registration.id} className="hover:bg-gray-50">
+                    <tr key={registration.id} className="hover:bg-purple-50/50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-semibold text-gray-900">
                           {registration.first_name} {registration.last_name}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{registration.company}</div>
+                        <div className="text-sm text-gray-700">{registration.company}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{registration.title}</div>
+                        <div className="text-sm text-gray-700">{registration.title}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => startEdit(registration)}
-                          className="text-blue-600 hover:text-blue-900 mr-4"
+                          className="text-purple-600 hover:text-purple-800 font-semibold mr-4 transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(registration.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-pink-600 hover:text-pink-800 font-semibold transition-colors"
                         >
                           Delete
                         </button>
@@ -339,13 +339,13 @@ export default function AdminPage() {
 
         {/* Edit Modal */}
         {editingId && editForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-gray-900">Edit Registration</h2>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-5 flex justify-between items-center rounded-t-2xl">
+                <h2 className="text-2xl font-bold text-white">Edit Registration</h2>
                 <button
                   onClick={cancelEdit}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-white/80 hover:text-white transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -356,7 +356,14 @@ export default function AdminPage() {
               <div className="p-6 space-y-6">
                 {/* Contact Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+                  <h3 className="text-lg font-bold text-purple-900 mb-4 flex items-center">
+                    <span className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </span>
+                    Contact Information
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
@@ -656,16 +663,16 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="sticky bottom-0 bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t">
+              <div className="sticky bottom-0 bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 flex justify-end gap-3 border-t border-purple-100 rounded-b-2xl">
                 <button
                   onClick={cancelEdit}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="btn-transform-outline"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => saveEdit(editingId)}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="btn-transform"
                 >
                   Save Changes
                 </button>

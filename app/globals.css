@@ -5,24 +5,55 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Transform 2026 Brand Colors */
+  --transform-purple: #6B21A8;
+  --transform-purple-dark: #581C87;
+  --transform-purple-light: #A855F7;
+  --transform-magenta: #DB2777;
+  --transform-magenta-dark: #BE185D;
+  --transform-cyan: #06B6D4;
+  --transform-teal: #14B8A6;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Transform branded button styles */
+  .btn-transform {
+    @apply bg-gradient-to-r from-purple-700 to-pink-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:from-purple-800 hover:to-pink-700 transition-all duration-200 transform hover:scale-[1.02];
+  }
+
+  .btn-transform-outline {
+    @apply border-2 border-purple-600 text-purple-700 font-semibold py-3 px-6 rounded-lg hover:bg-purple-50 transition-all duration-200;
+  }
+
+  /* Transform card styling */
+  .card-transform {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden;
+  }
+
+  /* Transform input styling */
+  .input-transform {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200;
+  }
+
+  /* Transform checkbox styling */
+  .checkbox-transform {
+    @apply w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500;
+  }
+
+  /* Transform radio styling */
+  .radio-transform {
+    @apply w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-500;
   }
 }
 
