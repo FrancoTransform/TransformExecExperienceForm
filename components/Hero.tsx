@@ -16,7 +16,7 @@ export default function Hero({ title, subtitle }: HeroProps) {
           src="/Transform2026FeaturedImage.png"
           alt="Transform 2026"
           width={1200}
-          height={628}
+          height={368}
           className="w-full h-auto"
           priority
         />
