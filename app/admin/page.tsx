@@ -13,6 +13,19 @@ interface Registration {
   is_chro: boolean
   company_size: string | null
   is_exec_member: boolean
+  // Individual activity columns
+  ai_at_work_mon: boolean
+  exec_chambers_mon: boolean
+  sponsored_dinner_mon: boolean
+  exec_member_lunch_tue: boolean
+  chro_experience_lunch_tue: boolean
+  chro_track_session_tue: boolean
+  exec_chambers_tue: boolean
+  vip_dinner_tue: boolean
+  chro_experience_breakfast_wed: boolean
+  executive_breakfast_wed: boolean
+  exec_chambers_wed: boolean
+  // Legacy field (kept for compatibility)
   activities: any
   staying_at_wynn: boolean
   check_in_date: string | null
@@ -154,20 +167,21 @@ export default function AdminPage() {
     r.company.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const getActivityCount = (activities: any) => {
-    if (!activities) return 0
-
-    // Parse if it's a string
-    let parsedActivities = activities
-    if (typeof activities === 'string') {
-      try {
-        parsedActivities = JSON.parse(activities)
-      } catch (e) {
-        return 0
-      }
-    }
-
-    return Object.values(parsedActivities).filter(Boolean).length
+  const getActivityCount = (registration: Registration) => {
+    // Count individual activity boolean columns
+    let count = 0
+    if (registration.ai_at_work_mon) count++
+    if (registration.exec_chambers_mon) count++
+    if (registration.sponsored_dinner_mon) count++
+    if (registration.exec_member_lunch_tue) count++
+    if (registration.chro_experience_lunch_tue) count++
+    if (registration.chro_track_session_tue) count++
+    if (registration.exec_chambers_tue) count++
+    if (registration.vip_dinner_tue) count++
+    if (registration.chro_experience_breakfast_wed) count++
+    if (registration.executive_breakfast_wed) count++
+    if (registration.exec_chambers_wed) count++
+    return count
   }
 
   if (loading) {
@@ -301,7 +315,7 @@ export default function AdminPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{getActivityCount(registration.activities)}</div>
+                        <div className="text-sm text-gray-900">{getActivityCount(registration)}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-500">
