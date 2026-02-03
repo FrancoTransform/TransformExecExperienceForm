@@ -10,7 +10,15 @@ export interface RegistrationFormData {
   isCHRO: boolean | null
   companySize: 'under_5000' | '5000_plus' | null
   isExecMember: boolean | null
-  
+
+  // CHRO Track Questions (only for CHRO + under_5000)
+  chroTrackCompanySizeDetail: 'under_500' | '500_1999' | '2000_4999' | null
+  chroTrackCompanyPresence: 'global' | 'us_only' | null
+  chroTrackCompanyType: 'public' | 'private' | 'in_transition' | null
+  chroTrackBiggestChallenge: string
+  chroTrackWinToShare: string
+  chroTrackSessionGoals: string[]
+
   // Activity Selections
   activities: {
     aiAtWorkMon: boolean

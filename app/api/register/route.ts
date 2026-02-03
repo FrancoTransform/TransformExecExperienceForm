@@ -21,6 +21,8 @@ export async function POST(request: NextRequest) {
       INSERT INTO registrations (
         first_name, last_name, email, company, title,
         is_chro, company_size, is_exec_member,
+        chro_track_company_size_detail, chro_track_company_presence, chro_track_company_type,
+        chro_track_biggest_challenge, chro_track_win_to_share, chro_track_session_goals,
         ai_at_work_mon, exec_chambers_mon, sponsored_dinner_mon,
         exec_member_lunch_tue, chro_experience_lunch_tue, chro_track_session_tue,
         exec_chambers_tue, vip_dinner_tue,
@@ -31,6 +33,9 @@ export async function POST(request: NextRequest) {
         ${formData.firstName}, ${formData.lastName}, ${formData.email},
         ${formData.company}, ${formData.title},
         ${formData.isCHRO}, ${formData.companySize}, ${formData.isExecMember},
+        ${formData.chroTrackCompanySizeDetail || null}, ${formData.chroTrackCompanyPresence || null},
+        ${formData.chroTrackCompanyType || null}, ${formData.chroTrackBiggestChallenge || null},
+        ${formData.chroTrackWinToShare || null}, ${formData.chroTrackSessionGoals.length > 0 ? formData.chroTrackSessionGoals : null},
         ${formData.activities.aiAtWorkMon}, ${formData.activities.execChambersMon},
         ${formData.activities.sponsoredDinnerMon},
         ${formData.activities.execMemberLunchTue}, ${formData.activities.chroExperienceLunchTue},

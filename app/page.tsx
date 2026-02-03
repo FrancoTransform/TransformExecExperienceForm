@@ -14,6 +14,12 @@ const initialFormData: RegistrationFormData = {
   isCHRO: null,
   companySize: null,
   isExecMember: null,
+  chroTrackCompanySizeDetail: null,
+  chroTrackCompanyPresence: null,
+  chroTrackCompanyType: null,
+  chroTrackBiggestChallenge: '',
+  chroTrackWinToShare: '',
+  chroTrackSessionGoals: [],
   activities: {
     aiAtWorkMon: false,
     execChambersMon: false,
@@ -34,7 +40,7 @@ const initialFormData: RegistrationFormData = {
   dietaryOther: '',
 }
 
-type Step = 'welcome' | 'contact' | 'qualification' | 'activities' | 'logistics' | 'review'
+type Step = 'welcome' | 'contact' | 'qualification' | 'chroTrack' | 'activities' | 'logistics' | 'review'
 
 export default function RegistrationPage() {
   const [currentStep, setCurrentStep] = useState<Step>('welcome')
@@ -64,11 +70,19 @@ export default function RegistrationPage() {
   const eligibleActivities = getEligibleActivities(formData)
   const hasLoungeAccess = hasExecLoungeAccess(formData)
 
-  const steps: Step[] = ['welcome', 'contact', 'qualification', 'activities', 'logistics', 'review']
+  // Determine if user should see CHRO Track step
+  const shouldShowCHROTrack = formData.isCHRO === true && formData.companySize === 'under_5000'
+
+  // Build steps array dynamically based on qualification
+  const steps: Step[] = shouldShowCHROTrack
+    ? ['welcome', 'contact', 'qualification', 'chroTrack', 'activities', 'logistics', 'review']
+    : ['welcome', 'contact', 'qualification', 'activities', 'logistics', 'review']
+
   const stepTitles: Record<Step, string> = {
     welcome: 'Welcome',
     contact: 'Contact Information',
     qualification: 'Qualification Questions',
+    chroTrack: 'CHRO Track Questions',
     activities: 'Select Activities',
     logistics: 'Logistics',
     review: 'Review & Submit'
@@ -83,6 +97,16 @@ export default function RegistrationPage() {
       case 'qualification':
         return formData.isCHRO !== null && formData.isExecMember !== null &&
                (formData.isCHRO === false || formData.companySize !== null)
+      case 'chroTrack':
+        // All CHRO Track questions are required
+        return !!(
+          formData.chroTrackCompanySizeDetail &&
+          formData.chroTrackCompanyPresence &&
+          formData.chroTrackCompanyType &&
+          formData.chroTrackBiggestChallenge.trim() &&
+          formData.chroTrackWinToShare.trim() &&
+          formData.chroTrackSessionGoals.length > 0
+        )
       case 'activities':
         return true // Optional to select activities
       case 'logistics':
@@ -352,6 +376,176 @@ export default function RegistrationPage() {
                       />
                       <span>No</span>
                     </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {currentStep === 'chroTrack' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">CHRO Track Questions</h2>
+              <p className="text-gray-600 mb-6">
+                Help us tailor your experience by sharing more about your company and what you're hoping to get from these sessions.
+              </p>
+
+              <div className="space-y-6">
+                {/* Company Size Detail */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    How many employees are at your company? <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanySizeDetail === 'under_500'}
+                        onChange={() => updateField('chroTrackCompanySizeDetail', 'under_500')}
+                        className="mr-2"
+                      />
+                      <span>Under 500</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanySizeDetail === '500_1999'}
+                        onChange={() => updateField('chroTrackCompanySizeDetail', '500_1999')}
+                        className="mr-2"
+                      />
+                      <span>500–1,999</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanySizeDetail === '2000_4999'}
+                        onChange={() => updateField('chroTrackCompanySizeDetail', '2000_4999')}
+                        className="mr-2"
+                      />
+                      <span>2,000–4,999</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Company Presence */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Company Presence <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanyPresence === 'global'}
+                        onChange={() => updateField('chroTrackCompanyPresence', 'global')}
+                        className="mr-2"
+                      />
+                      <span>Global (operations in multiple countries)</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanyPresence === 'us_only'}
+                        onChange={() => updateField('chroTrackCompanyPresence', 'us_only')}
+                        className="mr-2"
+                      />
+                      <span>US only</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Company Type */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Company Type <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanyType === 'public'}
+                        onChange={() => updateField('chroTrackCompanyType', 'public')}
+                        className="mr-2"
+                      />
+                      <span>Public</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanyType === 'private'}
+                        onChange={() => updateField('chroTrackCompanyType', 'private')}
+                        className="mr-2"
+                      />
+                      <span>Private</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={formData.chroTrackCompanyType === 'in_transition'}
+                        onChange={() => updateField('chroTrackCompanyType', 'in_transition')}
+                        className="mr-2"
+                      />
+                      <span>In transition (going public, going private, or recently changed)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Biggest Challenge */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    What's your biggest challenge right now? <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={formData.chroTrackBiggestChallenge}
+                    onChange={(e) => updateField('chroTrackBiggestChallenge', e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Share your biggest challenge..."
+                  />
+                </div>
+
+                {/* Win to Share */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    What win would you like to share with peers? <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={formData.chroTrackWinToShare}
+                    onChange={(e) => updateField('chroTrackWinToShare', e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Share a recent win or success..."
+                  />
+                </div>
+
+                {/* Session Goals */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    What are you hoping to get out of these sessions? (Select all that apply) <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    {[
+                      'Give and take discussion on shared challenges',
+                      'Build deep connections with peers',
+                      'Learn from others who've solved problems I'm facing',
+                      'Share what's working at my organization',
+                      'Explore specific topics in depth'
+                    ].map((goal) => (
+                      <label key={goal} className="flex items-start">
+                        <input
+                          type="checkbox"
+                          checked={formData.chroTrackSessionGoals.includes(goal)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              updateField('chroTrackSessionGoals', [...formData.chroTrackSessionGoals, goal])
+                            } else {
+                              updateField('chroTrackSessionGoals', formData.chroTrackSessionGoals.filter(g => g !== goal))
+                            }
+                          }}
+                          className="mr-2 mt-1"
+                        />
+                        <span>{goal}</span>
+                      </label>
+                    ))}
                   </div>
                 </div>
               </div>
