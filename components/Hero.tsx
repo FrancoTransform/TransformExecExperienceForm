@@ -5,28 +5,26 @@ import Image from 'next/image'
 interface HeroProps {
   title?: string
   subtitle?: string
-  showFullBanner?: boolean
 }
 
-export default function Hero({ title, subtitle, showFullBanner = true }: HeroProps) {
+export default function Hero({ title, subtitle }: HeroProps) {
   return (
-    <div className="relative w-full">
-      {/* Hero Banner Image */}
-      <div className="relative w-full h-48 md:h-64 lg:h-72 overflow-hidden">
+    <div className="relative w-full bg-purple-900">
+      {/* Hero Banner Image - maintains aspect ratio */}
+      <div className="relative w-full">
         <Image
           src="/Transform2026FeaturedImage.png"
           alt="Transform 2026"
-          fill
-          className="object-cover object-center"
+          width={1200}
+          height={628}
+          className="w-full h-auto"
           priority
         />
-        {/* Gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
       </div>
-      
+
       {/* Optional title overlay */}
       {(title || subtitle) && (
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/60 to-transparent">
           <div className="max-w-4xl mx-auto text-center">
             {title && (
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-lg">
