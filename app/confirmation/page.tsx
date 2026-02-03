@@ -24,6 +24,15 @@ function ConfirmationContent() {
   const [loading, setLoading] = useState(true)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setOpenDropdown(null)
+    if (openDropdown) {
+      document.addEventListener('click', handleClickOutside)
+      return () => document.removeEventListener('click', handleClickOutside)
+    }
+  }, [openDropdown])
+
   const handleAddToCalendar = (activityString: string, calendarType: CalendarType) => {
     const event = activityToCalendarEvent(activityString)
     if (event) {
