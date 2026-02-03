@@ -35,12 +35,6 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
     }
 
-    // Build hotel dates string for email template
-    let hotelDates = ''
-    if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
-      hotelDates = `Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
-    }
-
     // Prepare contact properties
     const properties: any = {
       email: data.email,
@@ -57,11 +51,6 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       execexp_selected_activities: selectedActivities,
       execexp_transform_2026_registered: 'Yes',
       execexp_registration_date: new Date().toISOString().split('T')[0],
-    }
-
-    // Add hotel dates as a separate field (for email template)
-    if (hotelDates) {
-      properties.execexp_hotel_dates = hotelDates
     }
 
     // Only add date fields if they have values (to avoid HubSpot errors if properties don't exist)
@@ -144,12 +133,6 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
           }
 
-          // Build hotel dates string for email template
-          let hotelDates = ''
-          if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
-            hotelDates = `Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
-          }
-
           // Update existing contact
           const properties: any = {
             firstname: data.firstName,
@@ -171,11 +154,6 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
               .join('<br>'),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
-          }
-
-          // Add hotel dates as a separate field (for email template)
-          if (hotelDates) {
-            properties.execexp_hotel_dates = hotelDates
           }
 
           // Only add date fields if they have values
