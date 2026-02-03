@@ -14,6 +14,9 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
   const hubspotClient = new Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN })
 
   console.log('Starting HubSpot sync for:', data.email)
+  console.log('Activities data:', JSON.stringify(data.activities))
+  console.log('Check-in date:', data.checkInDate)
+  console.log('Check-out date:', data.checkOutDate)
 
   try {
 
@@ -22,6 +25,8 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       .filter(([_, selected]) => selected)
       .map(([key]) => `• ${formatActivityName(key)}`)
       .join('<br>')
+
+    console.log('Formatted activities:', selectedActivities)
 
     // Format dietary restrictions
     const dietaryInfo = data.dietaryRestrictions.length > 0
