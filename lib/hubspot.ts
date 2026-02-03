@@ -51,6 +51,40 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       properties.execexp_check_out_date = data.checkOutDate
     }
 
+    // Add CHRO Track properties if they exist (only for CHRO Track attendees)
+    if (data.chroTrackCompanySizeDetail) {
+      const sizeMap: Record<string, string> = {
+        'under_500': 'Under 500',
+        '500_1999': '500-1,999',
+        '2000_4999': '2,000-4,999'
+      }
+      properties.execexp_chro_track_company_size_detail = sizeMap[data.chroTrackCompanySizeDetail] || data.chroTrackCompanySizeDetail
+    }
+    if (data.chroTrackCompanyPresence) {
+      const presenceMap: Record<string, string> = {
+        'global': 'Global',
+        'us_only': 'US Only'
+      }
+      properties.execexp_chro_track_company_presence = presenceMap[data.chroTrackCompanyPresence] || data.chroTrackCompanyPresence
+    }
+    if (data.chroTrackCompanyType) {
+      const typeMap: Record<string, string> = {
+        'public': 'Public',
+        'private': 'Private',
+        'in_transition': 'In Transition'
+      }
+      properties.execexp_chro_track_company_type = typeMap[data.chroTrackCompanyType] || data.chroTrackCompanyType
+    }
+    if (data.chroTrackBiggestChallenge) {
+      properties.execexp_chro_track_biggest_challenge = data.chroTrackBiggestChallenge
+    }
+    if (data.chroTrackWinToShare) {
+      properties.execexp_chro_track_win_to_share = data.chroTrackWinToShare
+    }
+    if (data.chroTrackSessionGoals && data.chroTrackSessionGoals.length > 0) {
+      properties.execexp_chro_track_session_goals = data.chroTrackSessionGoals.join('; ')
+    }
+
     // Create or update contact in HubSpot
     const response = await hubspotClient.crm.contacts.basicApi.create({
       properties,
