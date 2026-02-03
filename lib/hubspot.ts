@@ -35,10 +35,10 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
     }
 
-    // Build hotel info string with dates
-    let hotelInfo = data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified'
+    // Build hotel dates string for email template
+    let hotelDates = ''
     if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
-      hotelInfo = `Yes - Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
+      hotelDates = `Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
     }
 
     // Prepare contact properties
@@ -52,11 +52,16 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
       execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
       execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
-      execexp_staying_at_wynn: hotelInfo,
+      execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
       execexp_dietary_restrictions: dietaryInfo,
       execexp_selected_activities: selectedActivities,
       execexp_transform_2026_registered: 'Yes',
       execexp_registration_date: new Date().toISOString().split('T')[0],
+    }
+
+    // Add hotel dates as a separate field (for email template)
+    if (hotelDates) {
+      properties.execexp_hotel_dates = hotelDates
     }
 
     // Only add date fields if they have values (to avoid HubSpot errors if properties don't exist)
@@ -139,10 +144,10 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
           }
 
-          // Build hotel info string with dates
-          let hotelInfo = data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified'
+          // Build hotel dates string for email template
+          let hotelDates = ''
           if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
-            hotelInfo = `Yes - Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
+            hotelDates = `Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
           }
 
           // Update existing contact
@@ -154,7 +159,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
             execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
             execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
-            execexp_staying_at_wynn: hotelInfo,
+            execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
             execexp_dietary_restrictions:
               data.dietaryRestrictions.length > 0
                 ? data.dietaryRestrictions.join(', ') +
@@ -166,6 +171,11 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
               .join('<br>'),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
+          }
+
+          // Add hotel dates as a separate field (for email template)
+          if (hotelDates) {
+            properties.execexp_hotel_dates = hotelDates
           }
 
           // Only add date fields if they have values
