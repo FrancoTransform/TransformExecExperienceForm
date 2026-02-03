@@ -1,5 +1,6 @@
 import { Activity, RegistrationFormData } from './types'
 
+// Transform 2026 dates: Feb 24-26, 2026 (Monday-Wednesday)
 export const activities: Activity[] = [
   {
     id: 'aiAtWorkMon',
@@ -63,8 +64,8 @@ export const activities: Activity[] = [
     time: '6:30 PM – 9:00 PM',
     name: 'VIP Dinner',
     description: 'Invite-only dinner for senior leaders',
-    isEligible: (data) => 
-      (data.isCHRO === true && data.companySize === '5000_plus') || 
+    isEligible: (data) =>
+      (data.isCHRO === true && data.companySize === '5000_plus') ||
       data.isExecMember === true,
   },
   {
@@ -92,6 +93,18 @@ export const activities: Activity[] = [
     isEligible: () => true, // Show to ALL
   },
 ]
+
+// Map day names to actual dates for Transform 2026
+export const dayToDate: Record<string, string> = {
+  'Monday': 'Mon, Feb 24',
+  'Tuesday': 'Tue, Feb 25',
+  'Wednesday': 'Wed, Feb 26',
+}
+
+// Get full date string for an activity
+export const getActivityDateString = (activity: Activity): string => {
+  return `${dayToDate[activity.day]} • ${activity.time}`
+}
 
 export const getEligibleActivities = (formData: RegistrationFormData): Activity[] => {
   return activities.filter(activity => activity.isEligible(formData))

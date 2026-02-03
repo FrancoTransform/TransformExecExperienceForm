@@ -20,20 +20,20 @@ export async function GET(
 
     const data = result[0]
 
-    // Map activity selections to readable names
+    // Map activity selections to readable names with full dates
     const selectedActivities: string[] = []
     const activityMapping = {
-      ai_at_work_mon: 'AI@Work Session - Monday 12:00 PM – 1:00 PM',
-      exec_chambers_mon: 'Exec Chambers Session - Monday 4:00 PM – 5:00 PM',
-      sponsored_dinner_mon: 'Sponsored Dinner - Monday 6:00 PM – 9:00 PM',
-      exec_member_lunch_tue: 'Exec Member Lunch - Tuesday 11:30 AM – 12:30 PM',
-      chro_experience_lunch_tue: 'CHRO Experience Lunch - Tuesday 12:00 PM – 12:45 PM',
-      chro_track_session_tue: 'CHRO Track Session - Tuesday 2:00 PM – 4:00 PM',
-      exec_chambers_tue: 'Exec Chambers Session - Tuesday 4:00 PM – 5:00 PM',
-      vip_dinner_tue: 'VIP Dinner - Tuesday 6:30 PM – 9:00 PM',
-      chro_experience_breakfast_wed: 'CHRO Experience Breakfast - Wednesday 8:00 AM – 9:00 AM',
-      executive_breakfast_wed: 'Executive Breakfast - Wednesday 8:00 AM – 9:00 AM',
-      exec_chambers_wed: 'Exec Chambers Session - Wednesday 3:00 PM – 4:00 PM',
+      ai_at_work_mon: 'AI@Work Session - Mon, Feb 24 • 12:00 PM – 1:00 PM',
+      exec_chambers_mon: 'Exec Chambers Session - Mon, Feb 24 • 4:00 PM – 5:00 PM',
+      sponsored_dinner_mon: 'Sponsored Dinner - Mon, Feb 24 • 6:00 PM – 9:00 PM',
+      exec_member_lunch_tue: 'Exec Member Lunch - Tue, Feb 25 • 11:30 AM – 12:30 PM',
+      chro_experience_lunch_tue: 'CHRO Experience Lunch - Tue, Feb 25 • 12:00 PM – 12:45 PM',
+      chro_track_session_tue: 'CHRO Track Session - Tue, Feb 25 • 2:00 PM – 4:00 PM',
+      exec_chambers_tue: 'Exec Chambers Session - Tue, Feb 25 • 4:00 PM – 5:00 PM',
+      vip_dinner_tue: 'VIP Dinner - Tue, Feb 25 • 6:30 PM – 9:00 PM',
+      chro_experience_breakfast_wed: 'CHRO Experience Breakfast - Wed, Feb 26 • 8:00 AM – 9:00 AM',
+      executive_breakfast_wed: 'Executive Breakfast - Wed, Feb 26 • 8:00 AM – 9:00 AM',
+      exec_chambers_wed: 'Exec Chambers Session - Wed, Feb 26 • 3:00 PM – 4:00 PM',
     }
 
     Object.entries(activityMapping).forEach(([key, name]) => {
