@@ -13,6 +13,13 @@ interface Registration {
   is_chro: boolean
   company_size: string | null
   is_exec_member: boolean
+  // CHRO Track fields
+  chro_track_company_size_detail: string | null
+  chro_track_company_presence: string | null
+  chro_track_company_type: string | null
+  chro_track_biggest_challenge: string | null
+  chro_track_win_to_share: string | null
+  chro_track_session_goals: string[] | null
   // Individual activity columns
   ai_at_work_mon: boolean
   exec_chambers_mon: boolean
@@ -95,16 +102,6 @@ export default function AdminPage() {
   const startEdit = (registration: Registration) => {
     setEditingId(registration.id)
 
-    // Parse activities if it's a string (from database)
-    let activities = registration.activities
-    if (typeof activities === 'string') {
-      try {
-        activities = JSON.parse(activities)
-      } catch (e) {
-        activities = {}
-      }
-    }
-
     // Parse dietary restrictions if it's a string
     let dietaryRestrictions = registration.dietary_restrictions
     if (typeof dietaryRestrictions === 'string') {
@@ -113,6 +110,31 @@ export default function AdminPage() {
       } catch (e) {
         dietaryRestrictions = []
       }
+    }
+
+    // Parse CHRO Track session goals if it's a string
+    let chroTrackSessionGoals = registration.chro_track_session_goals
+    if (typeof chroTrackSessionGoals === 'string') {
+      try {
+        chroTrackSessionGoals = JSON.parse(chroTrackSessionGoals)
+      } catch (e) {
+        chroTrackSessionGoals = []
+      }
+    }
+
+    // Build activities object from individual boolean columns
+    const activities = {
+      aiAtWorkMon: registration.ai_at_work_mon || false,
+      execChambersMon: registration.exec_chambers_mon || false,
+      sponsoredDinnerMon: registration.sponsored_dinner_mon || false,
+      execMemberLunchTue: registration.exec_member_lunch_tue || false,
+      chroExperienceLunchTue: registration.chro_experience_lunch_tue || false,
+      chroTrackSessionTue: registration.chro_track_session_tue || false,
+      execChambersTue: registration.exec_chambers_tue || false,
+      vipDinnerTue: registration.vip_dinner_tue || false,
+      chroExperienceBreakfastWed: registration.chro_experience_breakfast_wed || false,
+      executiveBreakfastWed: registration.executive_breakfast_wed || false,
+      execChambersWed: registration.exec_chambers_wed || false,
     }
 
     setEditForm({
@@ -124,12 +146,23 @@ export default function AdminPage() {
       isCHRO: registration.is_chro,
       companySize: registration.company_size,
       isExecMember: registration.is_exec_member,
-      activities: activities || {},
+      // CHRO Track fields
+      chroTrackCompanySizeDetail: registration.chro_track_company_size_detail,
+      chroTrackCompanyPresence: registration.chro_track_company_presence,
+      chroTrackCompanyType: registration.chro_track_company_type,
+      chroTrackBiggestChallenge: registration.chro_track_biggest_challenge || '',
+      chroTrackWinToShare: registration.chro_track_win_to_share || '',
+      chroTrackSessionGoals: Array.isArray(chroTrackSessionGoals) ? chroTrackSessionGoals : [],
+      // Activities
+      activities: activities,
+      // Logistics
       stayingAtWynn: registration.staying_at_wynn,
       checkInDate: formatDateForInput(registration.check_in_date),
       checkOutDate: formatDateForInput(registration.check_out_date),
       dietaryRestrictions: Array.isArray(dietaryRestrictions) ? dietaryRestrictions : [],
       dietaryOther: registration.dietary_other || '',
+      // Metadata
+      createdAt: registration.created_at,
     })
   }
 
@@ -251,25 +284,10 @@ export default function AdminPage() {
                     Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Company
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Title
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    CHRO
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Exec Member
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Activities
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Registered
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
@@ -279,7 +297,7 @@ export default function AdminPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRegistrations.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                       {searchTerm ? 'No registrations found matching your search.' : 'No registrations yet.'}
                     </td>
                   </tr>
@@ -292,42 +310,17 @@ export default function AdminPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{registration.email}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{registration.company}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{registration.title}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          registration.is_chro ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {registration.is_chro ? 'Yes' : 'No'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          registration.is_exec_member ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {registration.is_exec_member ? 'Yes' : 'No'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{getActivityCount(registration)}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
-                          {new Date(registration.created_at).toLocaleDateString()}
-                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => startEdit(registration)}
                           className="text-blue-600 hover:text-blue-900 mr-4"
                         >
-                          View/Edit
+                          Edit
                         </button>
                         <button
                           onClick={() => handleDelete(registration.id)}
@@ -493,6 +486,65 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {/* CHRO Track (only show if CHRO with growth company) */}
+                {editForm.isCHRO && editForm.companySize === 'under_5000' && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">CHRO Track Questions</h3>
+                    <div className="space-y-4 bg-purple-50 p-4 rounded-lg">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Size Detail</label>
+                        <p className="text-sm text-gray-900">
+                          {editForm.chroTrackCompanySizeDetail === 'under_500' && 'Under 500 employees'}
+                          {editForm.chroTrackCompanySizeDetail === '500_1999' && '500-1,999 employees'}
+                          {editForm.chroTrackCompanySizeDetail === '2000_4999' && '2,000-4,999 employees'}
+                          {!editForm.chroTrackCompanySizeDetail && <span className="italic text-gray-500">Not specified</span>}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Presence</label>
+                        <p className="text-sm text-gray-900">
+                          {editForm.chroTrackCompanyPresence === 'global' && 'Global (offices/employees outside the US)'}
+                          {editForm.chroTrackCompanyPresence === 'us_only' && 'US Only'}
+                          {!editForm.chroTrackCompanyPresence && <span className="italic text-gray-500">Not specified</span>}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Type</label>
+                        <p className="text-sm text-gray-900">
+                          {editForm.chroTrackCompanyType === 'public' && 'Publicly traded'}
+                          {editForm.chroTrackCompanyType === 'private' && 'Privately held'}
+                          {editForm.chroTrackCompanyType === 'in_transition' && 'In transition (going public, private equity, acquisition, etc.)'}
+                          {!editForm.chroTrackCompanyType && <span className="italic text-gray-500">Not specified</span>}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Biggest Challenge</label>
+                        <p className="text-sm text-gray-900 whitespace-pre-wrap">
+                          {editForm.chroTrackBiggestChallenge || <span className="italic text-gray-500">Not specified</span>}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Win to Share</label>
+                        <p className="text-sm text-gray-900 whitespace-pre-wrap">
+                          {editForm.chroTrackWinToShare || <span className="italic text-gray-500">Not specified</span>}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Session Goals</label>
+                        {Array.isArray(editForm.chroTrackSessionGoals) && editForm.chroTrackSessionGoals.length > 0 ? (
+                          <ul className="text-sm text-gray-900 list-disc list-inside">
+                            {editForm.chroTrackSessionGoals.map((goal: string, idx: number) => (
+                              <li key={idx}>{goal}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-sm italic text-gray-500">Not specified</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Logistics */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Logistics</h3>
@@ -583,6 +635,23 @@ export default function AdminPage() {
                     ) : (
                       <p className="text-sm text-gray-500 italic">No activities selected</p>
                     )}
+                  </div>
+                </div>
+
+                {/* Registration Metadata */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Registration Details</h3>
+                  <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm font-medium text-gray-500">Registration ID:</span>
+                      <span className="text-sm text-gray-900 font-mono">{editingId}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm font-medium text-gray-500">Submitted:</span>
+                      <span className="text-sm text-gray-900">
+                        {editForm.createdAt ? new Date(editForm.createdAt).toLocaleString() : 'N/A'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
