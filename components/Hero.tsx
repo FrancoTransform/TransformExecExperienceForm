@@ -13,12 +13,13 @@ export default function Hero({ title, subtitle }: HeroProps) {
       {/* Hero Banner Image - maintains aspect ratio */}
       <div className="relative w-full">
         <Image
-          src="/Transform2026FeaturedImage.png"
+          src="/Transform2026FeaturedImage.png?v=2"
           alt="Transform 2026"
           width={1200}
           height={368}
           className="w-full h-auto"
           priority
+          unoptimized
         />
       </div>
 
