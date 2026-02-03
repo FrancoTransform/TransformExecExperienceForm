@@ -14,16 +14,29 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       return
     }
 
-    // Format selected activities as a readable list with bullet points and newlines
+    // Format selected activities as HTML list with line breaks
     const selectedActivities = Object.entries(data.activities)
       .filter(([_, selected]) => selected)
       .map(([key]) => `• ${formatActivityName(key)}`)
-      .join('\n')
+      .join('<br>')
 
     // Format dietary restrictions
     const dietaryInfo = data.dietaryRestrictions.length > 0
       ? data.dietaryRestrictions.join(', ') + (data.dietaryOther ? ` (Other: ${data.dietaryOther})` : '')
       : 'None'
+
+    // Format dates in human-readable format
+    const formatDate = (dateStr: string): string => {
+      if (!dateStr) return ''
+      const date = new Date(dateStr + 'T00:00:00')
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+    }
+
+    // Build hotel info string with dates
+    let hotelInfo = data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified'
+    if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
+      hotelInfo = `Yes - Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
+    }
 
     // Prepare contact properties
     const properties: any = {
@@ -36,7 +49,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
       execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
       execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
-      execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
+      execexp_staying_at_wynn: hotelInfo,
       execexp_dietary_restrictions: dietaryInfo,
       execexp_selected_activities: selectedActivities,
       execexp_transform_2026_registered: 'Yes',
@@ -45,10 +58,10 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
 
     // Only add date fields if they have values (to avoid HubSpot errors if properties don't exist)
     if (data.checkInDate) {
-      properties.execexp_check_in_date = data.checkInDate
+      properties.execexp_check_in_date = formatDate(data.checkInDate)
     }
     if (data.checkOutDate) {
-      properties.execexp_check_out_date = data.checkOutDate
+      properties.execexp_check_out_date = formatDate(data.checkOutDate)
     }
 
     // Add CHRO Track properties if they exist (only for CHRO Track attendees)
@@ -116,6 +129,19 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
         if (searchResponse.results.length > 0) {
           const contactId = searchResponse.results[0].id
 
+          // Format dates in human-readable format
+          const formatDate = (dateStr: string): string => {
+            if (!dateStr) return ''
+            const date = new Date(dateStr + 'T00:00:00')
+            return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+          }
+
+          // Build hotel info string with dates
+          let hotelInfo = data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified'
+          if (data.stayingAtWynn && data.checkInDate && data.checkOutDate) {
+            hotelInfo = `Yes - Check-in: ${formatDate(data.checkInDate)} | Check-out: ${formatDate(data.checkOutDate)}`
+          }
+
           // Update existing contact
           const properties: any = {
             firstname: data.firstName,
@@ -125,7 +151,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
             execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
             execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
-            execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
+            execexp_staying_at_wynn: hotelInfo,
             execexp_dietary_restrictions:
               data.dietaryRestrictions.length > 0
                 ? data.dietaryRestrictions.join(', ') +
@@ -134,17 +160,17 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             execexp_selected_activities: Object.entries(data.activities)
               .filter(([_, selected]) => selected)
               .map(([key]) => `• ${formatActivityName(key)}`)
-              .join('\n'),
+              .join('<br>'),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
           }
 
           // Only add date fields if they have values
           if (data.checkInDate) {
-            properties.execexp_check_in_date = data.checkInDate
+            properties.execexp_check_in_date = formatDate(data.checkInDate)
           }
           if (data.checkOutDate) {
-            properties.execexp_check_out_date = data.checkOutDate
+            properties.execexp_check_out_date = formatDate(data.checkOutDate)
           }
 
           await hubspotClient.crm.contacts.basicApi.update(contactId, { properties })
