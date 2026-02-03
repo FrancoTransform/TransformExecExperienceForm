@@ -20,11 +20,11 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
 
   try {
 
-    // Format selected activities as HTML list with line breaks
+    // Format selected activities as a simple comma-separated list
     const selectedActivities = Object.entries(data.activities)
       .filter(([_, selected]) => selected)
-      .map(([key]) => `• ${formatActivityName(key)}`)
-      .join('<br>')
+      .map(([key]) => formatActivityName(key))
+      .join(', ')
 
     console.log('Formatted activities:', selectedActivities)
 
@@ -155,8 +155,8 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
                 : 'None',
             execexp_selected_activities: Object.entries(data.activities)
               .filter(([_, selected]) => selected)
-              .map(([key]) => `• ${formatActivityName(key)}`)
-              .join('<br>'),
+              .map(([key]) => formatActivityName(key))
+              .join(', '),
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
           }
