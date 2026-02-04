@@ -20,11 +20,11 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
 
   try {
 
-    // Format selected activities with newlines (one per line)
+    // Format selected activities with HTML line breaks for email
     const selectedActivities = Object.entries(data.activities)
       .filter(([_, selected]) => selected)
       .map(([key]) => `• ${formatActivityName(key)}`)
-      .join('\n')
+      .join('<br>')
 
     console.log('Formatted activities:', selectedActivities)
 
@@ -157,7 +157,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             execexp_selected_activities: Object.entries(data.activities)
               .filter(([_, selected]) => selected)
               .map(([key]) => `• ${formatActivityName(key)}`)
-              .join('\n'),
+              .join('<br>'),
             execexp_lead_source: 'Executive Experience Web Form',
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
