@@ -47,9 +47,8 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       lastname: data.lastName,
       company: data.company,
       jobtitle: data.title,
-      // Marketing contact properties
+      // Marketing contact property
       hs_marketable_status: 'true',
-      hs_marketable_reason: 'Form submission via Executive Experience Web Form',
       // Custom properties (these need to be created in HubSpot first)
       execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
       execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
@@ -148,9 +147,8 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
             lastname: data.lastName,
             company: data.company,
             jobtitle: data.title,
-            // Marketing contact properties
+            // Marketing contact property
             hs_marketable_status: 'true',
-            hs_marketable_reason: 'Form submission via Executive Experience Web Form',
             execexp_is_chro: data.isCHRO === true ? 'Yes' : data.isCHRO === false ? 'No' : 'Not specified',
             execexp_company_size: data.companySize === 'under_5000' ? 'Under 5,000' : data.companySize === '5000_plus' ? '5,000+' : 'Not specified',
             execexp_is_exec_member: data.isExecMember === true ? 'Yes' : data.isExecMember === false ? 'No' : 'Not specified',
