@@ -54,6 +54,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
       execexp_staying_at_wynn: data.stayingAtWynn === true ? 'Yes' : data.stayingAtWynn === false ? 'No' : 'Not specified',
       execexp_dietary_restrictions: dietaryInfo,
       execexp_selected_activities: selectedActivities,
+      execexp_lead_source: 'Executive Experience Web Form',
       execexp_transform_2026_registered: 'Yes',
       execexp_registration_date: new Date().toISOString().split('T')[0],
     }
@@ -157,6 +158,7 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
               .filter(([_, selected]) => selected)
               .map(([key]) => `• ${formatActivityName(key)}`)
               .join('\n'),
+            execexp_lead_source: 'Executive Experience Web Form',
             execexp_transform_2026_registered: 'Yes',
             execexp_registration_date: new Date().toISOString().split('T')[0],
           }
