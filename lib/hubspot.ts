@@ -191,16 +191,16 @@ export async function syncToHubSpot(data: RegistrationFormData): Promise<void> {
 function formatActivityName(key: string): string {
   const activityNames: Record<string, string> = {
     aiAtWorkMon: 'AI@Work Session (Mon 12-1PM)',
-    execChambersMon: 'Exec Chambers (Mon 4-5PM)',
-    sponsoredDinnerMon: 'Sponsored Dinner (Mon 6-9PM)',
+    execChambersMon: 'Exec Chamber Session - The Ripple Effect (Mon 4-5PM)',
+    sponsoredDinnerMon: 'CHRO Experience Dinner brought to you by Aon (Mon 6-9PM)',
     execMemberLunchTue: 'Exec Member Lunch (Tue 11:30-12:30)',
-    chroExperienceLunchTue: 'CHRO Experience Lunch (Tue 12-12:45)',
+    chroExperienceLunchTue: 'CHRO Experience Lunch brought to you by Aon (Tue 12-12:45)',
     chroTrackSessionTue: 'CHRO Track Session (Tue 2-4PM)',
-    execChambersTue: 'Exec Chambers (Tue 4-5PM)',
-    vipDinnerTue: 'VIP Dinner (Tue 6:30-9PM)',
-    chroExperienceBreakfastWed: 'CHRO Experience Breakfast (Wed 8-9AM)',
+    execChambersTue: 'AI@Work Session (Tue 4-5PM)',
+    vipDinnerTue: 'VIP Dinner brought to you by Dergel Cornerstone (Tue 6:30-9PM)',
+    chroExperienceBreakfastWed: 'CHRO Experience Breakfast brought to you by Aon (Wed 8-9AM)',
     executiveBreakfastWed: 'Executive Breakfast (Wed 8-9AM)',
-    execChambersWed: 'Exec Chambers (Wed 3-4PM)',
+    execChambersWed: 'Exec Chamber Session - Raising the Bar (Wed 3-4PM)',
   }
   return activityNames[key] || key
 }

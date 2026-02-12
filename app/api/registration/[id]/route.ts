@@ -24,16 +24,16 @@ export async function GET(
     const selectedActivities: string[] = []
     const activityMapping = {
       ai_at_work_mon: 'AI@Work Session - Mon, Mar 23 • 12:00 PM – 1:00 PM',
-      exec_chambers_mon: 'Exec Chambers Session - Mon, Mar 23 • 4:00 PM – 5:00 PM',
-      sponsored_dinner_mon: 'Sponsored Dinner - Mon, Mar 23 • 6:00 PM – 9:00 PM',
+      exec_chambers_mon: 'Exec Chamber Session - The Ripple Effect - Mon, Mar 23 • 4:00 PM – 5:00 PM',
+      sponsored_dinner_mon: 'CHRO Experience Dinner brought to you by Aon - Mon, Mar 23 • 6:00 PM – 9:00 PM',
       exec_member_lunch_tue: 'Exec Member Lunch - Tue, Mar 24 • 11:30 AM – 12:30 PM',
-      chro_experience_lunch_tue: 'CHRO Experience Lunch - Tue, Mar 24 • 12:00 PM – 12:45 PM',
+      chro_experience_lunch_tue: 'CHRO Experience Lunch brought to you by Aon - Tue, Mar 24 • 12:00 PM – 12:45 PM',
       chro_track_session_tue: 'CHRO Track Session - Tue, Mar 24 • 2:00 PM – 4:00 PM',
-      exec_chambers_tue: 'Exec Chambers Session - Tue, Mar 24 • 4:00 PM – 5:00 PM',
-      vip_dinner_tue: 'VIP Dinner - Tue, Mar 24 • 6:30 PM – 9:00 PM',
-      chro_experience_breakfast_wed: 'CHRO Experience Breakfast - Wed, Mar 25 • 8:00 AM – 9:00 AM',
+      exec_chambers_tue: 'AI@Work Session - Tue, Mar 24 • 4:00 PM – 5:00 PM',
+      vip_dinner_tue: 'VIP Dinner brought to you by Dergel Cornerstone - Tue, Mar 24 • 6:30 PM – 9:00 PM',
+      chro_experience_breakfast_wed: 'CHRO Experience Breakfast brought to you by Aon - Wed, Mar 25 • 8:00 AM – 9:00 AM',
       executive_breakfast_wed: 'Executive Breakfast - Wed, Mar 25 • 8:00 AM – 9:00 AM',
-      exec_chambers_wed: 'Exec Chambers Session - Wed, Mar 25 • 3:00 PM – 4:00 PM',
+      exec_chambers_wed: 'Exec Chamber Session - Raising the Bar - Wed, Mar 25 • 3:00 PM – 4:00 PM',
     }
 
     Object.entries(activityMapping).forEach(([key, name]) => {

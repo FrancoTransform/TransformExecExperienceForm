@@ -91,9 +91,21 @@ function ConfirmationContent() {
               You&apos;re Registered!
             </h1>
             <p className="text-gray-600 leading-relaxed max-w-xl mx-auto">
-              Thanks for registering for Executive Experiences at Transform 2026.
-              We&apos;ve received your selections and will send a confirmation email with
-              details for each event you signed up for.
+              Thank you for creating your Executive Program at Transform 2026.
+              Please keep an eye out for a confirmation email with the details for each event
+              you signed up for as part of your Executive Program.
+            </p>
+            <p className="text-gray-600 leading-relaxed max-w-xl mx-auto mt-4">
+              Note, please also review the{' '}
+              <a
+                href="https://www.transformhrsummit.com/agenda"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors"
+              >
+                Transform Agenda
+              </a>{' '}
+              which includes numerous other learning and networking opportunities.
             </p>
           </div>
 

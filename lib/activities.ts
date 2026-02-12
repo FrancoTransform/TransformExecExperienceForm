@@ -8,22 +8,22 @@ export const activities: Activity[] = [
     day: 'Monday',
     time: '12:00 PM – 1:00 PM',
     name: 'AI@Work Session',
-    description: 'Practitioners share real-world AI implementation stories',
+    description: 'Monday, March 23rd | 12:00–1:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Jessica Swank, Chief People Officer, Box\n• Brandon Barnes, VP, People Intelligence & Rewards, Box',
     isEligible: () => true, // Show to ALL
   },
   {
     id: 'execChambersMon',
     day: 'Monday',
     time: '4:00 PM – 5:00 PM',
-    name: 'Exec Chambers Session',
-    description: 'Closed-door peer discussion',
+    name: 'Exec Chamber Session - The Ripple Effect',
+    description: 'Monday, March 23rd | 4:00–5:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Jennifer Christie, Chief People Officer, Docusign\n• Fiona Shinkfield, VP, People Strategy, Technology & Compliance, Docusign',
     isEligible: () => true, // Show to ALL
   },
   {
     id: 'sponsoredDinnerMon',
     day: 'Monday',
     time: '6:00 PM – 9:00 PM',
-    name: 'Sponsored Dinner',
+    name: 'CHRO Experience Dinner brought to you by Aon',
     description: 'Evening networking dinner',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',
   },
@@ -39,7 +39,7 @@ export const activities: Activity[] = [
     id: 'chroExperienceLunchTue',
     day: 'Tuesday',
     time: '12:00 PM – 12:45 PM',
-    name: 'CHRO Experience Lunch',
+    name: 'CHRO Experience Lunch brought to you by Aon',
     description: 'Sponsored lunch for enterprise CHROs',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',
   },
@@ -55,15 +55,15 @@ export const activities: Activity[] = [
     id: 'execChambersTue',
     day: 'Tuesday',
     time: '4:00 PM – 5:00 PM',
-    name: 'Exec Chambers Session',
-    description: 'Closed-door peer discussion',
+    name: 'AI@Work Session',
+    description: 'Tuesday, March 24th | 4:00–5:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeaker: Apple Musni, Chief People Officer, REI',
     isEligible: () => true, // Show to ALL
   },
   {
     id: 'vipDinnerTue',
     day: 'Tuesday',
     time: '6:30 PM – 9:00 PM',
-    name: 'VIP Dinner',
+    name: 'VIP Dinner brought to you by Dergel Cornerstone',
     description: 'Invite-only dinner for senior leaders',
     isEligible: (data) =>
       (data.isCHRO === true && data.companySize === '5000_plus') ||
@@ -73,7 +73,7 @@ export const activities: Activity[] = [
     id: 'chroExperienceBreakfastWed',
     day: 'Wednesday',
     time: '8:00 AM – 9:00 AM',
-    name: 'CHRO Experience Breakfast',
+    name: 'CHRO Experience Breakfast brought to you by Aon',
     description: 'Morning session for enterprise CHROs',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',
   },
@@ -89,8 +89,8 @@ export const activities: Activity[] = [
     id: 'execChambersWed',
     day: 'Wednesday',
     time: '3:00 PM – 4:00 PM',
-    name: 'Exec Chambers Session',
-    description: 'Closed-door peer discussion',
+    name: 'Exec Chamber Session - Raising the Bar',
+    description: 'Building Integrated Talent Cycles That Scale\nWednesday, March 25th | 3:00–4:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Amy Reichanadter, Chief People Officer, Databricks\n• Andrew Wilhelms, VP, Talent Management, Databricks',
     isEligible: () => true, // Show to ALL
   },
 ]

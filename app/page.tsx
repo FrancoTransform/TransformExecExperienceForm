@@ -81,8 +81,8 @@ export default function RegistrationPage() {
   const stepTitles: Record<Step, string> = {
     welcome: 'Welcome',
     contact: 'Contact Information',
-    qualification: 'Qualification Questions',
-    chroTrack: 'CHRO Track Questions',
+    qualification: 'Tell Us More',
+    chroTrack: 'Build Your Experience',
     activities: 'Select Activities',
     logistics: 'Logistics',
     review: 'Review & Submit'
@@ -119,11 +119,18 @@ export default function RegistrationPage() {
     }
   }
 
+  const scrollToStepContent = () => {
+    const el = document.getElementById('step-content')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   const goToNextStep = () => {
     const currentIndex = steps.indexOf(currentStep)
     if (currentIndex < steps.length - 1 && canProceedFromStep(currentStep)) {
       setCurrentStep(steps[currentIndex + 1])
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      scrollToStepContent()
     }
   }
 
@@ -131,13 +138,13 @@ export default function RegistrationPage() {
     const currentIndex = steps.indexOf(currentStep)
     if (currentIndex > 0) {
       setCurrentStep(steps[currentIndex - 1])
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      scrollToStepContent()
     }
   }
 
   const goToStep = (step: Step) => {
     setCurrentStep(step)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    scrollToStepContent()
   }
 
   const handleSubmit = async () => {
@@ -199,7 +206,7 @@ export default function RegistrationPage() {
         </div>
 
         {/* Step Content */}
-        <div className="card-transform p-8">
+        <div id="step-content" className="card-transform p-8">
           {currentStep === 'welcome' && (
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-6">
@@ -298,7 +305,7 @@ export default function RegistrationPage() {
 
           {currentStep === 'qualification' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Qualification Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Tell Us More</h2>
               <div className="space-y-6">
                 {/* CHRO Question */}
                 <div>
@@ -391,7 +398,7 @@ export default function RegistrationPage() {
 
           {currentStep === 'chroTrack' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">CHRO Track Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Build Your Experience</h2>
               <p className="text-gray-600 mb-6">
                 Help us tailor your experience by sharing more about your company and what you're hoping to get from these sessions.
               </p>
@@ -588,7 +595,7 @@ export default function RegistrationPage() {
                       <div className="font-medium text-gray-900">{activity.name}</div>
                       <div className="text-sm text-gray-600">{activity.day} • {activity.time}</div>
                       {activity.description && (
-                        <div className="text-sm text-gray-500 mt-1">{activity.description}</div>
+                        <div className="text-sm text-gray-500 mt-1 whitespace-pre-line">{activity.description}</div>
                       )}
                     </div>
                   </label>
@@ -832,7 +839,7 @@ export default function RegistrationPage() {
                 disabled={isSubmitting}
                 className="btn-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {isSubmitting ? 'Submitting...' : '✓ Register for Executive Experiences'}
+                {isSubmitting ? 'Submitting...' : '✓ Confirm Your Participation'}
               </button>
             ) : (
               <button
