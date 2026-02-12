@@ -496,7 +496,7 @@ export default function AdminPage() {
                 {/* CHRO Track (only show if CHRO with growth company) */}
                 {editForm.isCHRO && editForm.companySize === 'under_5000' && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Build Your Experience</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Let&apos;s narrow it further</h3>
                     <div className="space-y-4 bg-purple-50 p-4 rounded-lg">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Company Size Detail</label>

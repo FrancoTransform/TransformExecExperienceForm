@@ -82,7 +82,7 @@ export default function RegistrationPage() {
     welcome: 'Welcome',
     contact: 'Contact Information',
     qualification: 'Tell Us More',
-    chroTrack: 'Build Your Experience',
+    chroTrack: 'Let\'s narrow it further',
     activities: 'Select Activities',
     logistics: 'Logistics',
     review: 'Review & Submit'
@@ -398,7 +398,7 @@ export default function RegistrationPage() {
 
           {currentStep === 'chroTrack' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Build Your Experience</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Let&apos;s narrow it further</h2>
               <p className="text-gray-600 mb-6">
                 Help us tailor your experience by sharing more about your company and what you're hoping to get from these sessions.
               </p>
