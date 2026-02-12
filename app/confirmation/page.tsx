@@ -98,7 +98,7 @@ function ConfirmationContent() {
             <p className="text-gray-600 leading-relaxed max-w-xl mx-auto mt-4">
               Note, please also review the{' '}
               <a
-                href="https://www.transformhrsummit.com/agenda"
+                href="https://register.transform.us/2026/agenda?_gl=1*1792fr0*_gcl_au*MTI4NTY3OTk3NS4xNzY4NTk0NDEz*_ga*MzU1Njc0ODguMTc1OTE3NzAxOA..*_ga_CZGBS5QV8E*czE3NzA5MjU5NTUkbzE3JGcwJHQxNzcwOTI1OTU1JGo2MCRsMCRoMA.."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors"
