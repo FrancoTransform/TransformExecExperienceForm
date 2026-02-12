@@ -593,7 +593,9 @@ export default function RegistrationPage() {
                     />
                     <div className="flex-1">
                       <div className="font-medium text-gray-900">{activity.name}</div>
-                      <div className="text-sm text-gray-600">{activity.day} • {activity.time}</div>
+                      {!activity.hasDetailedDescription && (
+                        <div className="text-sm text-gray-600">{activity.day} • {activity.time}</div>
+                      )}
                       {activity.description && (
                         <div className="text-sm text-gray-500 mt-1 whitespace-pre-line">{activity.description}</div>
                       )}

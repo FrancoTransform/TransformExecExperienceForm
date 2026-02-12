@@ -9,6 +9,7 @@ export const activities: Activity[] = [
     time: '12:00 PM – 1:00 PM',
     name: 'AI@Work Session',
     description: 'Monday, March 23rd | 12:00–1:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Jessica Swank, Chief People Officer, Box\n• Brandon Barnes, VP, People Intelligence & Rewards, Box',
+    hasDetailedDescription: true,
     isEligible: () => true, // Show to ALL
   },
   {
@@ -17,6 +18,7 @@ export const activities: Activity[] = [
     time: '4:00 PM – 5:00 PM',
     name: 'Exec Chamber Session - The Ripple Effect',
     description: 'Monday, March 23rd | 4:00–5:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Jennifer Christie, Chief People Officer, Docusign\n• Fiona Shinkfield, VP, People Strategy, Technology & Compliance, Docusign',
+    hasDetailedDescription: true,
     isEligible: () => true, // Show to ALL
   },
   {
@@ -57,6 +59,7 @@ export const activities: Activity[] = [
     time: '4:00 PM – 5:00 PM',
     name: 'AI@Work Session',
     description: 'Tuesday, March 24th | 4:00–5:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeaker: Apple Musni, Chief People Officer, REI',
+    hasDetailedDescription: true,
     isEligible: () => true, // Show to ALL
   },
   {
@@ -91,6 +94,7 @@ export const activities: Activity[] = [
     time: '3:00 PM – 4:00 PM',
     name: 'Exec Chamber Session - Raising the Bar',
     description: 'Building Integrated Talent Cycles That Scale\nWednesday, March 25th | 3:00–4:00 PM PST\nLocation: Wynn Las Vegas | Montrachet 2\nSpeakers:\n• Amy Reichanadter, Chief People Officer, Databricks\n• Andrew Wilhelms, VP, Talent Management, Databricks',
+    hasDetailedDescription: true,
     isEligible: () => true, // Show to ALL
   },
 ]

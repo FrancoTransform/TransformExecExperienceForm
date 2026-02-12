@@ -48,6 +48,7 @@ export interface Activity {
   time: string
   name: string
   description: string
+  hasDetailedDescription?: boolean
   isEligible: (formData: RegistrationFormData) => boolean
 }
 
