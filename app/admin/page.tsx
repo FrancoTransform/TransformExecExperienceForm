@@ -43,15 +43,30 @@ interface Registration {
 }
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [password, setPassword] = useState('')
+  const [authError, setAuthError] = useState(false)
   const [registrations, setRegistrations] = useState<Registration[]>([])
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editForm, setEditForm] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (password === 'T@26!') {
+      setIsAuthenticated(true)
+      setAuthError(false)
+    } else {
+      setAuthError(true)
+    }
+  }
+
   useEffect(() => {
-    fetchRegistrations()
-  }, [])
+    if (isAuthenticated) {
+      fetchRegistrations()
+    }
+  }, [isAuthenticated])
 
   const fetchRegistrations = async () => {
     try {
@@ -221,6 +236,38 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center">
         <div className="text-xl text-purple-600">Loading registrations...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+        <Hero />
+        <div className="max-w-md mx-auto px-4 py-16">
+          <div className="card-transform p-8">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent mb-6 text-center">Admin Login</h1>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); setAuthError(false) }}
+                  className="input-transform w-full"
+                  placeholder="Enter admin password"
+                  autoFocus
+                />
+              </div>
+              {authError && (
+                <p className="text-red-500 text-sm">Incorrect password. Please try again.</p>
+              )}
+              <button type="submit" className="btn-transform w-full">
+                Log In
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     )
   }
