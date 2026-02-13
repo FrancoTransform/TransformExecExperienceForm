@@ -47,7 +47,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState(false)
   const [registrations, setRegistrations] = useState<Registration[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editForm, setEditForm] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -69,6 +69,7 @@ export default function AdminPage() {
   }, [isAuthenticated])
 
   const fetchRegistrations = async () => {
+    setLoading(true)
     try {
       const response = await fetch('/api/admin/registrations')
       const data = await response.json()
