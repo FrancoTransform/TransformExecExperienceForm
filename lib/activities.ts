@@ -42,7 +42,7 @@ export const activities: Activity[] = [
     day: 'Tuesday',
     time: '12:00 PM – 12:45 PM',
     name: 'CHRO Experience Lunch brought to you by Aon',
-    description: 'Sponsored lunch for enterprise CHROs',
+    description: 'Peer conversation based lunch for enterprise CHROs',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',
   },
   {
