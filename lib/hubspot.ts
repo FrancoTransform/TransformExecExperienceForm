@@ -197,7 +197,6 @@ function formatActivityName(key: string): string {
     chroExperienceLunchTue: 'CHRO Experience Lunch brought to you by Aon (Tue 12-12:45)',
     chroTrackSessionTue: 'CHRO Track Session (Tue 2-4PM)',
     execChambersTue: 'AI@Work Session (Tue 4-5PM)',
-    vipDinnerTue: 'VIP Dinner brought to you by Dergel Cornerstone (Tue 6:30-9PM)',
     chroExperienceBreakfastWed: 'CHRO Experience Breakfast brought to you by Aon (Wed 8-9AM)',
     executiveBreakfastWed: 'Executive Breakfast (Wed 8-9AM)',
     execChambersWed: 'Exec Chamber Session - Raising the Bar (Wed 3-4PM)',

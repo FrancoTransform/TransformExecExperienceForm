@@ -30,7 +30,6 @@ export async function GET(
       chro_experience_lunch_tue: 'CHRO Experience Lunch brought to you by Aon - Tue, Mar 24 • 12:00 PM – 12:45 PM',
       chro_track_session_tue: 'CHRO Track Session - Tue, Mar 24 • 2:00 PM – 4:00 PM',
       exec_chambers_tue: 'AI@Work Session - Tue, Mar 24 • 4:00 PM – 5:00 PM',
-      vip_dinner_tue: 'VIP Dinner brought to you by Dergel Cornerstone - Tue, Mar 24 • 6:30 PM – 9:00 PM',
       chro_experience_breakfast_wed: 'CHRO Experience Breakfast brought to you by Aon - Wed, Mar 25 • 8:00 AM – 9:00 AM',
       executive_breakfast_wed: 'Executive Breakfast - Wed, Mar 25 • 8:00 AM – 9:00 AM',
       exec_chambers_wed: 'Exec Chamber Session - Raising the Bar - Wed, Mar 25 • 3:00 PM – 4:00 PM',

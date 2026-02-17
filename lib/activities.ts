@@ -63,16 +63,6 @@ export const activities: Activity[] = [
     isEligible: () => true, // Show to ALL
   },
   {
-    id: 'vipDinnerTue',
-    day: 'Tuesday',
-    time: '6:30 PM – 9:00 PM',
-    name: 'VIP Dinner brought to you by Dergel Cornerstone',
-    description: 'Invite-only dinner for senior leaders',
-    isEligible: (data) =>
-      (data.isCHRO === true && data.companySize === '5000_plus') ||
-      data.isExecMember === true,
-  },
-  {
     id: 'chroExperienceBreakfastWed',
     day: 'Wednesday',
     time: '8:00 AM – 9:00 AM',

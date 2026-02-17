@@ -38,13 +38,6 @@ const activities = [
     isEligible: () => true,
   },
   {
-    id: 'vipDinnerTue',
-    name: 'VIP Dinner (Tue)',
-    isEligible: (data) => 
-      (data.isCHRO === true && data.companySize === '5000_plus') || 
-      data.isExecMember === true,
-  },
-  {
     id: 'chroExperienceBreakfastWed',
     name: 'CHRO Experience Breakfast (Wed)',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',
@@ -82,7 +75,7 @@ const flowA = {
 const flowAActivities = getEligibleActivities(flowA);
 console.log('Should see:', flowAActivities.map(a => a.name).join(', '));
 console.log('Exec Lounge Access:', hasExecLoungeAccess(flowA) ? 'YES' : 'NO');
-console.log('Expected: AI@Work, Exec Chambers (Mon/Tue/Wed), Sponsored Dinner, Exec Member Lunch, CHRO Experience Lunch, VIP Dinner, CHRO Experience Breakfast');
+console.log('Expected: AI@Work, Exec Chambers (Mon/Tue/Wed), Sponsored Dinner, Exec Member Lunch, CHRO Experience Lunch, CHRO Experience Breakfast');
 console.log('Should NOT see: CHRO Track Session, Executive Breakfast\n');
 
 // Flow B: CHRO at 3,000 employees, not Exec Member (PRD lines 179-182)
@@ -96,7 +89,7 @@ const flowBActivities = getEligibleActivities(flowB);
 console.log('Should see:', flowBActivities.map(a => a.name).join(', '));
 console.log('Exec Lounge Access:', hasExecLoungeAccess(flowB) ? 'YES' : 'NO');
 console.log('Expected per MATRIX: AI@Work, Exec Chambers (Mon/Tue/Wed), CHRO Track Session, Executive Breakfast');
-console.log('Should NOT see: Sponsored Dinner, Exec Member Lunch, CHRO Experience Lunch/Breakfast, VIP Dinner\n');
+console.log('Should NOT see: Sponsored Dinner, Exec Member Lunch, CHRO Experience Lunch/Breakfast\n');
 
 // Flow C: VP (not CHRO), 10K employees, not Exec Member (PRD lines 183-185)
 console.log('Flow C: VP (not CHRO), not Exec Member');
@@ -109,7 +102,7 @@ const flowCActivities = getEligibleActivities(flowC);
 console.log('Should see:', flowCActivities.map(a => a.name).join(', '));
 console.log('Exec Lounge Access:', hasExecLoungeAccess(flowC) ? 'YES' : 'NO');
 console.log('Expected per MATRIX: AI@Work, Exec Chambers (Mon/Tue/Wed), Executive Breakfast');
-console.log('Should NOT see: Sponsored Dinner, CHRO activities, Exec Member Lunch, VIP Dinner\n');
+console.log('Should NOT see: Sponsored Dinner, CHRO activities, Exec Member Lunch\n');
 
 // Flow D: Exec Member who is not a CHRO (PRD lines 186-189)
 console.log('Flow D: Exec Member, not CHRO');
@@ -121,6 +114,6 @@ const flowD = {
 const flowDActivities = getEligibleActivities(flowD);
 console.log('Should see:', flowDActivities.map(a => a.name).join(', '));
 console.log('Exec Lounge Access:', hasExecLoungeAccess(flowD) ? 'YES' : 'NO');
-console.log('Expected: AI@Work, Exec Chambers (Mon/Tue/Wed), Exec Member Lunch, VIP Dinner, Executive Breakfast');
+console.log('Expected: AI@Work, Exec Chambers (Mon/Tue/Wed), Exec Member Lunch, Executive Breakfast');
 console.log('Should NOT see: Sponsored Dinner, CHRO Experience activities, CHRO Track Session\n');
 
