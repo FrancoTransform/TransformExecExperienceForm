@@ -71,7 +71,6 @@ export function generateOutlookUrl(event: CalendarEvent): string {
   }
 
   const params = new URLSearchParams({
-    path: '/calendar/action/compose',
     rru: 'addevent',
     subject: event.title,
     startdt: formatOutlookDate(event.startDate),
@@ -80,7 +79,7 @@ export function generateOutlookUrl(event: CalendarEvent): string {
     location: event.location,
   })
 
-  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`
+  return `https://outlook.live.com/calendar/0/action/compose?${params.toString()}`
 }
 
 export type CalendarType = 'google' | 'outlook' | 'ical'
