@@ -90,7 +90,7 @@ export function addToCalendar(event: CalendarEvent, calendarType: CalendarType, 
       window.open(generateGoogleCalendarUrl(event), '_blank')
       break
     case 'outlook':
-      window.open(generateOutlookUrl(event), '_blank')
+      downloadICS(event, filename)
       break
     case 'ical':
     default:
