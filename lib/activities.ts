@@ -24,7 +24,7 @@ export const activities: Activity[] = [
   {
     id: 'sponsoredDinnerMon',
     day: 'Monday',
-    time: '6:00 PM – 9:00 PM',
+    time: '6:30 PM – 9:00 PM',
     name: 'CHRO Experience Dinner brought to you by Aon',
     description: 'Evening networking dinner',
     isEligible: (data) => data.isCHRO === true && data.companySize === '5000_plus',

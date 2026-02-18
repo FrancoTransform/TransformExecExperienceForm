@@ -192,7 +192,7 @@ function formatActivityName(key: string): string {
   const activityNames: Record<string, string> = {
     aiAtWorkMon: 'AI@Work Session (Mon 12-1PM)',
     execChambersMon: 'Exec Chamber Session - The Ripple Effect (Mon 4-5PM)',
-    sponsoredDinnerMon: 'CHRO Experience Dinner brought to you by Aon (Mon 6-9PM)',
+    sponsoredDinnerMon: 'CHRO Experience Dinner brought to you by Aon (Mon 6:30-9PM)',
     execMemberLunchTue: 'Exec Member Lunch (Tue 11:30-12:30)',
     chroExperienceLunchTue: 'CHRO Experience Lunch brought to you by Aon (Tue 12-12:45)',
     chroTrackSessionTue: 'CHRO Track Session (Tue 2-4PM)',

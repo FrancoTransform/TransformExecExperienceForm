@@ -25,7 +25,7 @@ export async function GET(
     const activityMapping = {
       ai_at_work_mon: 'AI@Work Session - Mon, Mar 23 • 12:00 PM – 1:00 PM',
       exec_chambers_mon: 'Exec Chamber Session - The Ripple Effect - Mon, Mar 23 • 4:00 PM – 5:00 PM',
-      sponsored_dinner_mon: 'CHRO Experience Dinner brought to you by Aon - Mon, Mar 23 • 6:00 PM – 9:00 PM',
+      sponsored_dinner_mon: 'CHRO Experience Dinner brought to you by Aon - Mon, Mar 23 • 6:30 PM – 9:00 PM',
       exec_member_lunch_tue: 'Exec Member Lunch - Tue, Mar 24 • 11:30 AM – 12:30 PM',
       chro_experience_lunch_tue: 'CHRO Experience Lunch brought to you by Aon - Tue, Mar 24 • 12:00 PM – 12:45 PM',
       chro_track_session_tue: 'CHRO Track Session - Tue, Mar 24 • 2:00 PM – 4:00 PM',
