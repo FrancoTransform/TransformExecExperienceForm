@@ -138,8 +138,8 @@ export function activityToCalendarEvent(activityString: string): CalendarEvent |
   const endHour = parseInt(timeMatch[4]) + (timeMatch[6] === 'PM' && timeMatch[4] !== '12' ? 12 : 0) - (timeMatch[6] === 'AM' && timeMatch[4] === '12' ? 12 : 0)
   const endMinute = parseInt(timeMatch[5])
 
-  const startDate = new Date(Date.UTC(year, month, day, startHour + 8, startMinute)) // PST is UTC-8
-  const endDate = new Date(Date.UTC(year, month, day, endHour + 8, endMinute))
+  const startDate = new Date(Date.UTC(year, month, day, startHour + 7, startMinute)) // PDT is UTC-7 (DST active in late March)
+  const endDate = new Date(Date.UTC(year, month, day, endHour + 7, endMinute))
 
   return {
     title: `${parsed.name} - Transform 2026`,
