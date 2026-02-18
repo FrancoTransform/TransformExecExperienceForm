@@ -220,7 +220,7 @@ export default function RegistrationPage() {
               <div className="text-gray-600 space-y-4 mb-8 max-w-2xl mx-auto text-left">
                 <p className="leading-relaxed">
                   You&apos;ve been selected to join our curated executive programming at Transform 2026.
-                  These sessions, meals, and experiences are designed exclusively for senior HR leaders —
+                  These sessions, meals, and experiences are designed exclusively for senior people leaders —
                   no vendors, no pitches, just meaningful conversations with peers navigating the same
                   challenges you are.
                 </p>
