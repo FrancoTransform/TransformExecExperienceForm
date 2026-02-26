@@ -241,6 +241,81 @@ export default function AdminPage() {
     )
   }
 
+  const exportToCSV = () => {
+    // Activity columns: db field -> human-readable header
+    const activityColumns: { field: keyof Registration; label: string }[] = [
+      { field: 'ai_at_work_mon', label: 'AI@Work Session (Mon)' },
+      { field: 'exec_chambers_mon', label: 'Exec Chamber - The Ripple Effect (Mon)' },
+      { field: 'sponsored_dinner_mon', label: 'CHRO Experience Dinner by Aon (Mon)' },
+      { field: 'exec_member_lunch_tue', label: 'Exec Member Lunch (Tue)' },
+      { field: 'chro_experience_lunch_tue', label: 'CHRO Experience Lunch by Aon (Tue)' },
+      { field: 'chro_track_session_tue', label: 'CHRO Track Session (Tue)' },
+      { field: 'exec_chambers_tue', label: 'AI@Work Session (Tue)' },
+      { field: 'vip_dinner_tue', label: 'VIP Dinner (Tue)' },
+      { field: 'chro_experience_breakfast_wed', label: 'CHRO Experience Breakfast by Aon (Wed)' },
+      { field: 'executive_breakfast_wed', label: 'Executive Breakfast (Wed)' },
+      { field: 'exec_chambers_wed', label: 'Exec Chamber - Raising the Bar (Wed)' },
+    ]
+
+    const headers = [
+      'ID', 'First Name', 'Last Name', 'Email', 'Company', 'Title',
+      'Is CHRO', 'Company Size', 'Is Exec Member',
+      'CHRO Track - Company Size Detail', 'CHRO Track - Company Presence',
+      'CHRO Track - Company Type', 'CHRO Track - Biggest Challenge',
+      'CHRO Track - Win to Share', 'CHRO Track - Session Goals',
+      ...activityColumns.map(a => a.label),
+      'Staying at Wynn', 'Check-in Date', 'Check-out Date',
+      'Dietary Restrictions', 'Dietary Other', 'Created At',
+    ]
+
+    const escapeCSV = (val: any): string => {
+      if (val === null || val === undefined) return ''
+      const str = String(val)
+      if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+        return `"${str.replace(/"/g, '""')}"`
+      }
+      return str
+    }
+
+    const rows = registrations.map(r => [
+      r.id,
+      r.first_name,
+      r.last_name,
+      r.email,
+      r.company,
+      r.title,
+      r.is_chro ? 'Yes' : 'No',
+      r.company_size || '',
+      r.is_exec_member ? 'Yes' : 'No',
+      r.chro_track_company_size_detail || '',
+      r.chro_track_company_presence || '',
+      r.chro_track_company_type || '',
+      r.chro_track_biggest_challenge || '',
+      r.chro_track_win_to_share || '',
+      Array.isArray(r.chro_track_session_goals) ? r.chro_track_session_goals.join('; ') : '',
+      ...activityColumns.map(a => r[a.field] ? 'x' : ''),
+      r.staying_at_wynn ? 'Yes' : 'No',
+      r.check_in_date || '',
+      r.check_out_date || '',
+      Array.isArray(r.dietary_restrictions) ? r.dietary_restrictions.join('; ') : '',
+      r.dietary_other || '',
+      r.created_at,
+    ])
+
+    const csvContent = [
+      headers.map(escapeCSV).join(','),
+      ...rows.map(row => row.map(escapeCSV).join(',')),
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `registrations_${new Date().toISOString().split('T')[0]}.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
@@ -311,15 +386,22 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Search */}
-        <div className="mb-6">
+        {/* Search + Export */}
+        <div className="mb-6 flex gap-4 items-center">
           <input
             type="text"
             placeholder="Search by name, email, or company..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-transform shadow-sm"
+            className="input-transform shadow-sm flex-1"
           />
+          <button
+            onClick={exportToCSV}
+            disabled={registrations.length === 0}
+            className="btn-transform whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            📥 Export CSV
+          </button>
         </div>
 
         {/* Registrations Table */}
